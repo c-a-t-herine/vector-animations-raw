@@ -21,18 +21,12 @@ import pprint
 from maya import cmds
 from maya import OpenMayaUI as omui
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QMessageBox, QPushButton, QWidget, QGridLayout, QVBoxLayout
+
 
 from ankiutils import head_angle_config
 
@@ -41,7 +35,7 @@ def getHeadAngleVariationExportSettings(structName=HEAD_ANGLE_STRUCT_NAME):
     """
     Get the current settings for exported head angle variations.
     """
-    numVariations = None
+    numVariations = 0
     whichKeyframes = None
     dataStructs = cmds.dataStructure(query=True)
     if structName in dataStructs:
@@ -262,7 +256,7 @@ class HeadAngleInput(QWidget):
 
 def main():
     mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-    mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+    mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
     ui = HeadAngleSettings(mayaMainWindow)
     ui.show()
     return ui
