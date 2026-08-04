@@ -13,7 +13,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtUiTools import *
 from shiboken6 import wrapInstance
-from PySide6.QtWidgets import QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
+from PySide6.QtWidgets import QMenu, QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
 
 
 from star_picker_add_selection import PickerAddWidget

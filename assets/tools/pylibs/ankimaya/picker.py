@@ -12,7 +12,7 @@ from maya import OpenMayaUI as omui
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtUiTools import *
-from PySide6.QtWidgets import QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
+from PySide6.QtWidgets import QMenu, QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
 from shiboken6 import wrapInstance
 
 from ankimaya.picker_add_selection import PickerAddWidget

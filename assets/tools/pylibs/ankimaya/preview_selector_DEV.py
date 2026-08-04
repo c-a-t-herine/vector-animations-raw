@@ -141,7 +141,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtUiTools import *
 from shiboken6 import wrapInstance
-from PySide6.QtWidgets import QApplication, QCheckBox, QLineEdit, QMessageBox, QLabel, QComboBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QHBoxLayout
+from PySide6.QtWidgets import QMenu, QApplication, QCheckBox, QLineEdit, QMessageBox, QLabel, QComboBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QHBoxLayout
 
 
 from ankimaya import game_exporter
