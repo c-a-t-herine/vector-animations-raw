@@ -15,7 +15,7 @@ import pprint
 
 def get_newest_json_file(dir_path, file_ext=".json"):
     # Get the last file we think is modified in there...
-    proc = subprocess.Popen("cd %s; ls -1t *%s  | head -1" % (dir_path, file_ext), stdout=subprocess.PIPE, shell=True)
+    proc = subprocess.Popen("cd %s; ls -1t *%s  | head -1" % (dir_path, file_ext), stdout=subprocess.PIPE, shell=True, text=True)
     (anim_file, err) = proc.communicate()
     if not anim_file:
         raise ValueError("No animation file found in %s" % dir_path)
