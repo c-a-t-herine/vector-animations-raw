@@ -5,7 +5,7 @@ import ankimaya.wheel_movement as wm
 import math
 import ankimaya.json_exporter as je
 import export_for_robot as efr
-import game_exporter as ge
+import ankimaya.game_exporter as ge
 
 
 MIN_RADIUS_THRESHOLD = 0.1
