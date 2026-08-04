@@ -1051,7 +1051,7 @@ global proc shelf_VictorAnim () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "try:\n    fo_inst.offset_keys()\nexcept NameError:\n    print \"Please record key values that are going to influence following keys first\"," 
+        -command "try:\n    fo_inst.offset_keys()\nexcept NameError:\n    print (\"Please record key values that are going to influence following keys first\"),"
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
