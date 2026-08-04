@@ -375,9 +375,7 @@ def run_command_wrapper(cmd, tools_dir=None, shell=False):
         tools_dir = get_tools_dir()
     if tools_dir and not cmd.startswith(os.sep):
         cmd = os.path.join(tools_dir, cmd)
-    print(f"running command")
     status, stdout, stderr = run_command(cmd, run_with_py3=True, shell=shell)
-    print(f"command status {status}")
     if status != 0:
         if stderr:
             display_msg = stderr.split(os.linesep)[-1]
