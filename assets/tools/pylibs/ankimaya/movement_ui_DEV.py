@@ -41,13 +41,15 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
+
 
 import ankimaya.wheel_movement as wm
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 
 WIN_TITLE = "Robot Movement"
 
@@ -115,7 +117,7 @@ USER_JSON_CONTENTS = {
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 class ToggleButton(QPushButton):
@@ -260,9 +262,9 @@ class MovementButton(QPushButton):
         Currently left and middle click are the only options.
         Middle click removes user shortcuts.
         """
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.left_clicked.emit()
-        if event.button() == Qt.MiddleButton:
+        if event.button() == Qt.MouseButton.MiddleButton:
             self.middle_clicked.emit()
             if self.removable:
                 self.setParent(None)
@@ -502,7 +504,7 @@ class MovementUI(QWidget):
         try:
             mc.deleteUI('MovementUI')
         except:
-            print "didnt close movementWindow for some reason"
+            print("didnt close movementWindow for some reason")
 
 class Subwindow(QWidget):
     """
@@ -522,8 +524,8 @@ class Subwindow(QWidget):
         self.layout.addWidget(pic)
         additional_bttns = AdditionalBttns(parent=self, populate_from=ADDITIONAL_BTTNS_STR)
         user_bttns = AdditionalBttns(parent=self, populate_from="user_shortcuts", json_path=USER_JSON_FILE)
-        self.layout.addWidget(additional_bttns, rowSpan=0)
-        self.layout.addWidget(user_bttns, rowSpan=0)
+        self.layout.addWidget(additional_bttns)
+        self.layout.addWidget(user_bttns)
 
         # First display the widget with an image, then one with the buttons overlaying the image
         self.show()
