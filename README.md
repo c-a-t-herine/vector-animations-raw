@@ -9,7 +9,7 @@ Sincere thanks to [Randall Maas](https://github.com/randym32) for his generous c
 wrt the `Victor_rig_01.ma` file location. In many of the .ma files this path is set to a user specific directory
 (`"/Users/selena/workspace/victor-animation//assets/rigs/Victor_rig_01.ma"`). In many cases Maya did prompt for the path each time I opened a file,
 but I found going through and updating the paths with find/replace was easier than navigating to the correct rig file repeatedly. I did not commit
-any of my updated paths but example files would be  `anim_explorer_driving_01.ma` and `assets...anim_explorer_01.ma`.
+any of my updated paths but example files would be  `anim_explorer_driving_01.ma` and `anim_explorer_01.ma`.
 
 
 Once you have installed Maya, you will need to install the AnkiMenu plugin (see the installation guide below).
