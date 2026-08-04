@@ -33,10 +33,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QFileDialog, QMessageBox, QComboBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea
+
 
 from anim_groups import JSON_TOP_KEY, NAME_ATTR, WEIGHT_ATTR, COOLDOWN_ATTR, MOOD_ATTR, MOODS
 from anim_groups import USE_HEAD_ANGLE_ATTR, HEAD_ANGLE_MIN_ATTR, HEAD_ANGLE_MAX_ATTR
@@ -48,7 +50,7 @@ from ankiutils.head_angle_config import HeadAngleConfig
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def _getDefaultAnimGroupDir(dirName=DEFAULT_AG_DIRECTORY):
@@ -135,7 +137,7 @@ class EditAnimGroupUI(QWidget):
         self.scrollLayout = None
         try:
             self.assets_by_category = get_assets_by_category()
-        except BaseException, e:
+        except BaseException as e:
             cmds.warning("Unable to query assets because: %s" % e)
             self.assets_by_category = {}
             self.assets_by_category[''] = []
@@ -327,8 +329,7 @@ class EditAnimGroupUI(QWidget):
         for anim in gameExporterAnims:
             if numVariations:
                 varMapping = headAngleConfig.get_anim_variation_to_range_mapping(anim, numVariations)
-                sortedClips = varMapping.keys()
-                sortedClips.sort()
+                sortedClips = sorted(varMapping)
                 for clip in sortedClips:
                     angleRange = varMapping[clip]
                     if clip not in self.assets_by_category['']:
@@ -501,12 +502,12 @@ class EditAnimGroupUI(QWidget):
             if not animClip[USE_HEAD_ANGLE_ATTR]:
                 for headAngleAttr in HEAD_ANGLE_ATTRS_SORTED:
                     animClip.pop(headAngleAttr)
-        ordered = [OrderedDict(sorted(item.iteritems(), key=lambda (k, v): sortOrder.index(k))) for item in animClips]
+        ordered = [OrderedDict(sorted(item.items(), key=lambda k, v: sortOrder.index(k))) for item in animClips]
         animGroup = {JSON_TOP_KEY : ordered}
         try:
             with open(jsonFile, 'w') as outFile:
                 json.dump(animGroup, outFile, indent=2, separators=(',', ': '))
-        except (OSError, IOError), e:
+        except (OSError, IOError) as e:
             errorMsg = "Failed to write '%s' file because: %s" % (jsonFile, e)
             cmds.warning(errorMsg)
             QMessageBox.critical(self, "Alert", errorMsg)
@@ -554,8 +555,7 @@ class AddAnimWidget(QWidget):
         self.add_anim_ui_file.close()
 
         # Setup the category/group setting, which will influence the animation clip setting.
-        categories = self.assets_by_category.keys()
-        categories.sort()
+        categories = sorted(self.assets_by_category)
         for category in categories:
             self.ui.categoryComboBox.addItem(category)
         self.ui.categoryComboBox.activated.connect(self.doCategoryChanged)
