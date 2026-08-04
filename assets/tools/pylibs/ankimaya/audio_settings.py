@@ -18,11 +18,12 @@ import string
 from maya import cmds
 from maya import OpenMayaUI
 from maya import OpenMaya
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-from PySide2.QtUiTools import *
-from shiboken2 import wrapInstance
+
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea
 
 from audio_core import loadAudioAttrs, loadAudioGroupsFromPy, setupAudioNode, audio_keyframe_updated
 from audio_core import getEventKeyframeAtTime, getEventKeyframeTimes, setGlobalActiveKeyframes
@@ -33,7 +34,7 @@ import timeline_callbacks
 
 
 mayaMainWindowPtr = OpenMayaUI.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def updateWidgetText(widget, palette=None, text=None):

@@ -22,15 +22,18 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QLineEdit, QComboBox, QPushButton, QWidget, QGridLayout, QLabel, QHBoxLayout
+
 
 import sprite_box_creator as sbc
 import timeline_callbacks
 
-reload(timeline_callbacks)
+import importlib
+importlib.reload(timeline_callbacks)
 import re
 
 WIN_TITLE = "Sprite Box Creator"
@@ -84,7 +87,7 @@ ANKI_ANIM_DIR = os.environ["ANKI_ANIM_DIR"]
 SPRITES_PATH = os.path.abspath(os.path.join(ANKI_ANIM_DIR, "..", 'sprites'))
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-MAYA_MAIN_WINDOW = wrapInstance(long(mayaMainWindowPtr), QWidget)
+MAYA_MAIN_WINDOW = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 class MainWindow(QWidget):
@@ -225,7 +228,7 @@ class MainWindow(QWidget):
         try:
             self.sprite_box_bttn.clicked.disconnect()
         except RuntimeError:
-            print "Can't disconnect sprite box key button"
+            print("Can't disconnect sprite box key button")
         if not sets_keyframe:
             self.sprite_box_bttn.clicked.connect(
                 lambda: sbc.create_sprite_box_polygon(layer_num=self.layer,

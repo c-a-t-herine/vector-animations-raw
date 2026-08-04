@@ -22,12 +22,14 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QApplication, QLabel, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea
 
-from window_docker import Dock
+
+from ankimaya.window_docker import Dock
 
 WIN_TITLE = "Victor Picker DEV"
 FIXED_WIDTH = 360
@@ -65,7 +67,7 @@ DEFAULT_BORDER_COLOR_HIGHLIGHT = "rgb(206,206,206,255)"
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 class SelectionButton(QPushButton):
@@ -166,9 +168,9 @@ class SelectionButton(QPushButton):
             mc.select(selection_list, add=False)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.left_clicked.emit()
-        if event.button() == Qt.MiddleButton:
+        if event.button() == Qt.MouseButton.MiddleButton:
             self.middle_clicked.emit()
 
     def enterEvent(self, event):
@@ -286,7 +288,7 @@ class SubWindow(QWidget):
         # Need to add additional widget so that the image doesn't change position with scale
         # Later can replace it with a row of additional buttons
         emptyWidget = QLabel(self)
-        self.layout.addWidget(emptyWidget, rowSpan=0)
+        self.layout.addWidget(emptyWidget)
 
         # First display the widget with an image, then one with the buttons overlaying the image
         self.show()
@@ -305,10 +307,10 @@ class SubWindow(QWidget):
         try:
             mc.deleteUI(WIN_TITLE)
         except:
-            print "didnt close pickerDEV for some reason"
+            print("didnt close pickerDEV for some reason")
 
 def main():
-    print "IM THE DEV VERSION"
+    print("IM THE DEV VERSION")
     ui = Dock(Picker, winTitle=WIN_TITLE)
     return ui
 

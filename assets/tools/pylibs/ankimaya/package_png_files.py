@@ -36,10 +36,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QFileDialog, QMessageBox, QPushButton, QWidget, QGridLayout
+
 
 from ankiutils import image_files
 import facial_animation
@@ -48,7 +50,7 @@ from ankimaya import preview_selector
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def previewImageSequence(tarFile, animPrefix="test"):
@@ -180,7 +182,7 @@ class SelectPngFilesUI(QWidget):
         allFiles += otherFiles
         try:
             tar = tarfile.open(tarFile, 'w')
-        except (OSError, IOError), e:
+        except (OSError, IOError) as e:
             self.close()
             msg = "Failed to write '%s' file because: %s" % (tarFile, e)
             cmds.warning(msg)
@@ -238,7 +240,7 @@ class SelectPngFilesUI(QWidget):
             if dataFiles:
                 try:
                     tarFile = self.makeTarFile(dataFiles)
-                except ValueError, e:
+                except ValueError as e:
                     self.close()
                     cmds.warning(str(e))
                     cmds.confirmDialog(message=str(e), icon="critical", title="PNG packaging error")

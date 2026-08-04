@@ -17,10 +17,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QPushButton, QWidget, QDockWidget
+
 
 
 def Dock(Widget, width=300, show=True, winTitle='DockableWindow', **kwargs):
@@ -55,7 +57,7 @@ def Dock(Widget, width=300, show=True, winTitle='DockableWindow', **kwargs):
     )
 
     dockPtr = omui.MQtUtil.findControl(dockControl)
-    dockWidget = wrapInstance(long(dockPtr), QDockWidget)
+    dockWidget = wrapInstance(int(dockPtr), QDockWidget)
     dockWidget.setAttribute(Qt.WA_DeleteOnClose)
     child = Widget(dockWidget, **kwargs)
     dockWidget.layout().addWidget(child)

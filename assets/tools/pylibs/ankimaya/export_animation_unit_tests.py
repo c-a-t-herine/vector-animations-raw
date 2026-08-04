@@ -12,7 +12,7 @@ import json
 import copy
 import subprocess
 import maya.cmds as cmds
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 from ankimaya.export_for_robot import export_robot_anim, verify_export_path, set_export_path
 
 VERBOSE = 1
@@ -68,18 +68,11 @@ BAD_TAR_FILE = ['anim_test_bad_01.tar']
 stdout_pipe = subprocess.PIPE
 stderr_pipe = subprocess.PIPE
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtWidgets import QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QLabel
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
 
 
 def read_anim_file(anim_file):
@@ -93,7 +86,7 @@ def read_anim_file(anim_file):
     fh = open(anim_file, 'r')
     try:
         contents = json.load(fh)
-    except StandardError, e:
+    except StandardError as e:
         # print("Failed to read %s file because: %s" % (anim_file, e))
         raise
     finally:
@@ -193,7 +186,7 @@ class AnimUTWidget(QWidget):
         self.initUI()
 
     def _setStatus(self, msg):
-        print msg
+        print(msg)
         self.statusLabel.setText(msg)
         self.log.append(msg)
         self.te.append(str(msg))
@@ -246,7 +239,7 @@ class AnimUTWidget(QWidget):
 
     def _isValidJSON(self, jsonfile):
         if not os.path.exists(jsonfile):
-            print "no file: {0}".format(jsonfile)
+            print("no file: {0}".format(jsonfile))
             raise IOError("no file {0}".format(jsonfile))
             return
         try:
@@ -265,7 +258,7 @@ class AnimUTWidget(QWidget):
         self._setStatus(msg)
         # For each known good maya file, compare results to known good json file
         for i in range(len(self.outputfiles)):
-            if VERBOSE: print 'self.outputfiles[i]=', self.outputfiles[i]
+            if VERBOSE: print('self.outputfiles[i]=', self.outputfiles[i])
             if self.outputfiles[i].endswith('json'):
                 filename = os.path.basename(self.outputfiles[i]).replace('.json', '_verified.json')
                 verified = os.path.join(VERIFIED_PATH, filename)
@@ -344,7 +337,7 @@ class AnimUTWidget(QWidget):
         # Teardown from previous tests
         for of in OUTPUT_FILES_TO_DELETE:
             path = os.path.join(OUTPUT_PATH, of)
-            print path
+            print(path)
             try:
                 if os.path.exists(path):
                     os.remove(path)
@@ -356,7 +349,7 @@ class AnimUTWidget(QWidget):
 
         for of in OUTPUT_TAR_FILES_TO_DELETE:
             path = os.path.join(OUTPUT_PATH_TAR, of)
-            print path
+            print(path)
             try:
                 if os.path.exists(path):
                     os.remove(path)
@@ -400,7 +393,7 @@ class AnimUTWidget(QWidget):
                     self._setStatus(msg)
 
     def run_tests(self):
-        print "starting run tests...."
+        print("starting run tests....")
         self.te.clear()
 
         # delete old results so they will not be validated
@@ -433,7 +426,7 @@ class AnimUTWidget(QWidget):
 
 def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shell=False, split=False):
     if VERBOSE:
-        print "CMD=", cmd
+        print("CMD=", cmd)
     if split:
         cmd = cmd.split()
     try:
@@ -444,9 +437,9 @@ def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shel
     (stdout, stderr) = p.communicate()
     status = p.poll()
     if VERBOSE:
-        print "cmd:status: ", status
-        print "cmd:stdout: ", stdout
-        print "cmd:stderr: ", stderr
+        print("cmd:status: ", status)
+        print("cmd:stdout: ", stdout)
+        print("cmd:stderr: ", stderr)
     return (status, stdout, stderr)
 
 

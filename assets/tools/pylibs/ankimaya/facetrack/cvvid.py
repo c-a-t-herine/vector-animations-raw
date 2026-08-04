@@ -3,7 +3,7 @@
 from maya import cmds
 from maya import OpenMayaUI as omui
 
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 
 # import the necessary packages
 from imutils import face_utils
@@ -16,18 +16,11 @@ import time
 from math import cos, sin, sqrt
 import numpy as np
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from PySide6.QtWidgets import QImage, QLabel, QPushButton, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout
+from shiboken6 import wrapInstance
 
 """
         This experiment uses DLIB (dlib.net) and opencv (opencv.org) to track faces from a video stream
@@ -39,7 +32,7 @@ except ImportError:
 """
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 # these values correspond to the 68 face landmarks
 # https://cdn-images-1.medium.com/max/1600/1*96UT-D8uSXjlnyvs9DZTog.png
@@ -338,21 +331,21 @@ class VidApp(QWidget):
         try:
             cmds.deleteUI("vid")
         except:
-            print "deleteUI vid didnt work"
+            print("deleteUI vid didnt work")
         try:
             self.destroy()
         except:
-            print "destroy didnt work"
+            print("destroy didnt work")
 
         try:
             cmds.deleteUI(dockControl)
         except:
-            print "couldnt delete control"
+            print("couldnt delete control")
 
         try:
             super(VidApp, self).close()
         except:
-            print "not super"
+            print("not super")
 
 
 ui = None

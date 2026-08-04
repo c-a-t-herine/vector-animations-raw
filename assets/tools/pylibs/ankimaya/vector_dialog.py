@@ -10,9 +10,11 @@ try:
     from PySide2.QtCore import *
     from PySide2.QtGui import *
 except ImportError:
-    from PySide.QtWidgets import *
-    from PySide.QtCore import *
-    from PySide.QtGui import *
+    from PySide6.QtWidgets import *
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtWidgets import QFileDialog, QCheckBox, QLineEdit, QMessageBox, QPushButton, QWidget, QVBoxLayout, QLabel, QHBoxLayout
+
 
 _maya_version = mc.about(version=True).split()[0]
 VECTOR_SETTINGS_PATH = os.path.join(os.getenv("HOME"), ".anki", "maya", _maya_version, ".vector_settings")

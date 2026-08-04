@@ -51,12 +51,14 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QApplication, QCheckBox, QLineEdit, QPushButton, QWidget, QVBoxLayout, QLabel, QHBoxLayout
 
-from window_docker import Dock
+
+from ankimaya.window_docker import Dock
 
 
 TITLE = 'Anki Animation Publisher'
@@ -498,7 +500,7 @@ class PublishWidget(QWidget):
         try:
             self.mayaFileRev = commit_svn_file(self.mayaFile, comment=commitComment, unlock=False,
                                                credentials=credentials)
-        except ValueError, e:
+        except ValueError as e:
             msg = "Failed to commit maya file {0} because: {1}".format(self.mayaFile, e)
             self._setStatus(msg)
             self.stepWidgets[step].setFail()
@@ -519,7 +521,7 @@ class PublishWidget(QWidget):
 
         try:
             self.tarFileRev = commit_svn_file(self.tarFile, comment=commitComment, credentials=credentials)
-        except ValueError, e:
+        except ValueError as e:
             msg = "Failed to commit tar file {0} because: {1}".format(self.tarFile, e)
             self._setStatus(msg)
             self.stepWidgets[step].setFail()
@@ -544,7 +546,7 @@ class PublishWidget(QWidget):
         self.stepWidgets[step].setRunning()
         try:
             anim_data.main([self.mayaFile, self.tarFile])
-        except BaseException, e:
+        except BaseException as e:
             msg = "Problem while updating Shotgun"
             self._setStatus(msg)
             self.stepWidgets[step].setFail()

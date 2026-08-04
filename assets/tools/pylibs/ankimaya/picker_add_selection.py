@@ -28,12 +28,13 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from PySide6.QtWidgets import QFileDialog, QApplication, QLineEdit, QPushButton, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout
+    from shiboken6 import wrapInstance
 
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 PICKER_JSON_DIR = os.path.join( os.environ['HOME'], '.anki','maya','2018','vectorSelectionSets')
 PICKER_SET_PREFIX = 'vectorPickerSet_'
 TOOLS_DIR_ENV_VAR = "ANKI_TOOLS"
@@ -95,11 +96,11 @@ class SelectItemButton(QPushButton):
             cmds.select(self.selectionList)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.selectThis()
-        elif event.button() == Qt.RightButton:
+        elif event.button() == Qt.MouseButton.RightButton:
             self.selectThis()
-        elif event.button() == Qt.MidButton:
+        elif event.button() == Qt.MouseButton.MiddleButton:
             self.parent.buttonList.remove(self)
             # DELETE
             # need to get rid of the selectionSet but not contents
@@ -197,16 +198,16 @@ class PickerAddWidget(QWidget):
         except:
             pass
         for b in self.buttonList:
-            print b, b.selectionList, b.label
+            print(b, b.selectionList, b.label)
             filename = str(b.label).replace(':','')+".json"
             jsonfile = os.path.join(filepath, filename)
-            print b.selectionList
+            print(b.selectionList)
             objs = cmds.sets(b.selectionList,q=1)
-            print "OBJS=",objs
+            print("OBJS=",objs)
             data = {"label" :  str(b.label), "set_name":str(b.selectionList), "objects":objs}
 
-            print jsonfile
-            print data
+            print(jsonfile)
+            print(data)
             with open(jsonfile, 'w') as outfile:
                 json.dump(data, outfile)
 
@@ -219,14 +220,14 @@ class PickerAddWidget(QWidget):
         data = None
         for f in fnames:
             f = str(f)
-            print str(f)
+            print(str(f))
             with open(f, 'r') as outfile:
                 data = json.load(outfile)
             label = data["label"]
             set_name = data["set_name"]
             objs = data["objects"]
             if cmds.objExists(set_name):
-                print "skipping set {0} it already exists".format(set_name)
+                print("skipping set {0} it already exists".format(set_name))
                 continue
             cmds.select(cl=True)
             for o in objs:

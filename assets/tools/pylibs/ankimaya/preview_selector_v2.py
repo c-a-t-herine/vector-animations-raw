@@ -59,10 +59,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QMessageBox, QComboBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea
+
 
 from ankimaya import game_exporter
 from ankiutils.anim_files import get_newest_json_file, get_json_file_for_anim
@@ -72,7 +74,7 @@ from ankiutils.head_angle_config import HeadAngleConfig
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def get_tools_dir():
@@ -97,7 +99,7 @@ def play_anim_clips(animClips=None, animFiles=None, robotVolume=None, ignoreClif
     if not exportPath:
         try:
             exportPath = get_export_path()
-        except ValueError, e:
+        except ValueError as e:
             exportPath = None
 
     if not animClips:
@@ -207,7 +209,7 @@ def run_command_wrapper(cmd, tools_dir=None, shell=False):
         cmds.warning(display_msg)
     elif stdout:
         display_msg = stdout.split(os.linesep)[-1]
-        print display_msg,
+        print(display_msg,)
     return (status, stdout, stderr, display_msg)
 
 
@@ -394,7 +396,7 @@ class PreviewSettings(QWidget):
         # rid of this and the subsequent logic for querying and passing along the animation files.
         try:
             exportPath = get_export_path()
-        except ValueError, e:
+        except ValueError as e:
             self.statusWidget.ui.enablePreview.setText(str(e))
             return None
 
@@ -414,7 +416,7 @@ class PreviewSettings(QWidget):
                 animFiles.append(animFile)
         if not animClips:
             msg = "No animation specified to play"
-            print msg,
+            print(msg,)
             self.statusWidget.ui.enablePreview.setText(msg)
             qApp.processEvents()
             return None
@@ -430,7 +432,7 @@ class PreviewSettings(QWidget):
             cmds.warning("The following animations will be played from build since no local "
                          "animation data was found: %s" % ', '.join(missingAnimFiles))
         else:
-            print msg,
+            print(msg,)
         self.statusWidget.ui.enablePreview.setText(msg)
         qApp.processEvents()
         display_msg = play_anim_clips(animClips, animFiles, robotVolume, ignoreCliffs, connectCubes,
@@ -508,7 +510,7 @@ class ToolStatus(QWidget):
             if status != 0:
                 cmds.warning(display_msg)
             elif not low_voltage:
-                print display_msg,
+                print(display_msg,)
             self.ui.enablePreview.setText(display_msg)
 
     def doDisable(self, prepare_sdk_script=PREPARE_SDK_SCRIPT):
@@ -526,7 +528,7 @@ class ToolStatus(QWidget):
         install = self.alertUserInstall()
         if not install:
             msg = "Installation aborted"
-            print msg,
+            print(msg,)
             self.ui.enablePreview.setText(msg)
             return None
         if not self.tools_dir:
@@ -534,7 +536,7 @@ class ToolStatus(QWidget):
             if not self.tools_dir:
                 return None
         installMsg = "Installing software on the connected device and this machine..."
-        print installMsg,
+        print(installMsg,)
         self.ui.enablePreview.setText(installMsg)
         qApp.processEvents()
         prepare_sdk_script += " -install"
@@ -600,7 +602,7 @@ class AnimToPlay(QWidget):
         # Add current anim clips to the pulldown menu
         try:
             animClips = self.getAnimClips()
-        except BaseException, e:
+        except BaseException as e:
             cmds.warning("Failed to get the list of animation clips from the Game Exporter")
             animClips = []
         for animClip in animClips:

@@ -31,10 +31,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea
+
 
 from audio_core import CURVE_TYPES, STATE_ID_ATTR, STATE_GROUP_ID_ATTR, AUDIO_STATE_TYPES, \
     AUDIO_SWITCH_TYPES, AUDIO_PARAMETER_TYPES, EVENT_NAME_ATTR, PARAMETER_NAME_ATTR, CURVE_ATTR, \
@@ -82,7 +84,7 @@ STATE_WIDGET_MIN_SIZE = (1000, 52)
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def getInversedPalette():
@@ -505,7 +507,7 @@ class SetAudioTrigger(QWidget):
         for attr in ALL_ATTRS:
             try:
                 uiAttr = eval("eventWidget.ui.%s" % attr)
-            except AttributeError, e:
+            except AttributeError as e:
                 # this attribute must come from a different widget
                 continue
             if hasattr(uiAttr, "checkState"):
@@ -667,7 +669,7 @@ class SetAudioTrigger(QWidget):
             for attr, value in keyframeData.items():
                 try:
                     uiAttr = eval("eventWidget.ui.%s" % attr)
-                except AttributeError, e:
+                except AttributeError as e:
                     uiAttr = eval("self.headerWidget.ui.%s" % attr)
                 if uiAttr in filled:
                     continue

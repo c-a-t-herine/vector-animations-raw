@@ -51,18 +51,11 @@ import os
 import json
 import maya.cmds as mc
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QTreeWidgetItem, QTreeWidget, QLabel, QCheckBox, QPushButton, QWidget, QVBoxLayout, QHBoxLayout
 
 from ankimaya.export_error_check.export_error_checker import run_pre_export_checks
 from ankimaya.export_error_check.export_error_checker import run_post_export_checks
@@ -232,7 +225,7 @@ class StepsContainer(QWidget):
                 # leaf
                 self.add_leaf_node(element, parent_element)
             else:
-                for key, value in element.iteritems():
+                for key, value in element.items():
                     # branch
                     if value:
                         new_node = self.add_parent_node(key, parent_element)
