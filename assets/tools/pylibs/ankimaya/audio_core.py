@@ -186,7 +186,7 @@ try:
 except ImportError as e:
     print("WARNING: %s" % e)
 try:
-    from PySide2.QtCore import QObject, Signal
+    from PySide6.QtCore import QObject, Signal
 except ImportError as e:
     print("WARNING: %s" % e)
     QObject = object

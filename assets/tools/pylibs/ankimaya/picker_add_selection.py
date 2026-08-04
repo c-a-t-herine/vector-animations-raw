@@ -20,19 +20,11 @@ import json
 from pprint import pprint
 import maya.cmds as cmds
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide6.QtCore import *
-    from PySide6.QtGui import *
-    from PySide6.QtUiTools import *
-    from PySide6.QtWidgets import QFileDialog, QApplication, QLineEdit, QPushButton, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout
-    from shiboken6 import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from PySide6.QtWidgets import QFileDialog, QApplication, QLineEdit, QPushButton, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout
+from shiboken6 import wrapInstance
 
 from ankimaya.window_docker import Dock
 PICKER_JSON_DIR = os.path.join( os.environ['HOME'], '.anki','maya','2018','vectorSelectionSets')

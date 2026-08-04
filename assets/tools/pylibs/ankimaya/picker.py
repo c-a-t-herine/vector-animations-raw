@@ -9,19 +9,11 @@ import json
 import maya.cmds as mc
 from maya import OpenMayaUI as omui
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide6.QtCore import *
-    from PySide6.QtGui import *
-    from PySide6.QtUiTools import *
-    from PySide6.QtWidgets import QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
-    from shiboken6 import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from PySide6.QtWidgets import QApplication, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
+from shiboken6 import wrapInstance
 
 from ankimaya.picker_add_selection import PickerAddWidget
 from ankimaya.window_docker import Dock

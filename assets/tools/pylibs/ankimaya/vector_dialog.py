@@ -5,15 +5,10 @@ from subprocess import *
 from fcntl import *
 import signal
 
-try:
-    from PySide2.QtWidgets import *
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-except ImportError:
-    from PySide6.QtWidgets import *
-    from PySide6.QtCore import *
-    from PySide6.QtGui import *
-    from PySide6.QtWidgets import QFileDialog, QCheckBox, QLineEdit, QMessageBox, QPushButton, QWidget, QVBoxLayout, QLabel, QHBoxLayout
+from PySide6.QtWidgets import *
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import QFileDialog, QCheckBox, QLineEdit, QMessageBox, QPushButton, QWidget, QVBoxLayout, QLabel, QHBoxLayout
 
 
 _maya_version = mc.about(version=True).split()[0]

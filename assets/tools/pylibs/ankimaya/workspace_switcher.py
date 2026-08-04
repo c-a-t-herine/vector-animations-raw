@@ -5,19 +5,11 @@ import subprocess
 import importlib
 from ankimaya.window_docker import Dock
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide6.QtCore import *
-    from PySide6.QtGui import *
-    from PySide6.QtUiTools import *
-    from shiboken6 import wrapInstance
-    from PySide6.QtWidgets import QPushButton, QWidget, QVBoxLayout, QLabel
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QPushButton, QWidget, QVBoxLayout, QLabel
 
 
 ROBOT_PROJECT = 'victor-animation'
