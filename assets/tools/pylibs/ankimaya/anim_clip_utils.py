@@ -1,7 +1,7 @@
 
 import maya.cmds as mc
 from ankimaya import game_exporter
-from game_exporter import GAME_EXPORTER_PRESET
+from ankimaya.game_exporter import GAME_EXPORTER_PRESET
 
 
 CLIP_NAME_KEY = "clip_name"

@@ -28,10 +28,10 @@
 import math
 import maya.cmds as mc
 from ankimaya.constants import ANIM_FPS, HACK_TIMELINE_SCALE, DATA_NODE_NAME
-from json_exporter import convert_time, get_movement_json
+from ankimaya.json_exporter import convert_time, get_movement_json
 from ankimaya import exporter_config
 from ankimaya import ctrs_manager
-from interpolation_manager import find_value_for_frame
+from ankimaya.interpolation_manager import find_value_for_frame
 from robot_config import MAX_WHEEL_SPEED_MMPS, MAX_BODY_ROTATION_SPEED_DEG_PER_SEC
 from robot_config import MIN_RADIUS_MM, MAX_RADIUS_MM, WHEEL_DIAMETER_MM, WHEEL_DIST_MM
 
