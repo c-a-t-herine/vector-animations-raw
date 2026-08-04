@@ -375,7 +375,7 @@ def run_command_wrapper(cmd, tools_dir=None, shell=False):
             display_msg = "Failed to execute: %s" % cmd
         cmds.warning(display_msg)
     elif stdout:
-        display_msg = stdout.split(os.linesep)[-1]
+        display_msg = stdout.split(str(os.linesep))[-1]
         print(display_msg,)
     return (status, stdout, stderr, display_msg)
 
@@ -406,6 +406,7 @@ def run_command(cmd, num_retries=0, display_output=False,
         stdout = stdout.strip()
     if stderr:
         stderr = stderr.strip()
+        stderr = str(stderr).strip()
     if status != 0:
         err_msg = "Failed to execute '%s' (exit status = %s) " % (cmd, status)
         if stderr:
