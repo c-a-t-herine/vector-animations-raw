@@ -93,7 +93,7 @@ ENUM_ATTRS = [EVENT_NAME_ATTR, EVENT_NAME_ATTR, CURVE_ATTR,
               SWITCH_GROUP_ID_ATTR, STATE_GROUP_ID_ATTR, STATE_ID_ATTR]
 
 NUMERICAL_EVENT_ATTRS = NUMERICAL_EVENT_ATTR_VALUES.keys()
-EVENT_ATTRS = [EVENT_NAME_ATTR] + NUMERICAL_EVENT_ATTRS
+EVENT_ATTRS = [EVENT_NAME_ATTR] + list(NUMERICAL_EVENT_ATTRS)
 ALL_ATTRS = ENUM_ATTRS + NUMERICAL_ATTRS
 
 SHORT_NAMES_DICT = { AUDIO_ENUM_ATTR : "wwid",
@@ -177,18 +177,17 @@ import tempfile
 import shutil
 import subprocess
 import filecmp
-import imp
 import bisect
 from ankimaya.export_error_check.error_checker_utils import add_json_node
 
 try:
     from maya import cmds
     from maya import mel
-except ImportError, e:
+except ImportError as e:
     print("WARNING: %s" % e)
 try:
     from PySide2.QtCore import QObject, Signal
-except ImportError, e:
+except ImportError as e:
     print("WARNING: %s" % e)
     QObject = object
 from ankiutils import svn_tools
@@ -198,6 +197,18 @@ from ankiutils import svn_tools
 # based on the selected audio group of interest.
 globalActiveKeyframes = None
 
+import importlib.util
+import importlib.machinery
+# https://docs.python.org/3/whatsnew/3.12.html#imp
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+    # The module is always executed and not cached in sys.modules.
+    # Uncomment the following line to cache the module.
+    # sys.modules[module.__name__] = module
+    loader.exec_module(module)
+    return module
 
 def _getDataDestination(repo):
     sbDir = os.getenv(SOUNDBANK_ENV_VAR)
@@ -222,7 +233,7 @@ def getSoundBanks(pkg_name=SOUNDBANK_PACKAGE_NAME, repo=SOUNDBANK_SVN_REPO, vers
         return None
     try:
         result = svn_tools.checkout_svn_package(pkg_name, repo, dataDest, version=version, verbose=False)
-    except ValueError, e:
+    except ValueError as e:
         cmds.warning(str(e))
         cmds.confirmDialog(message=str(e), title="Failed to checkout %s (version %s)" % (repo, version),
                            icon="critical")
@@ -249,7 +260,7 @@ def syncWwisePlugin(pluginName=WWISE_PLUGIN_NAME, melCmd=UPDATE_WWISE_PLUGIN_DAT
     # Run the MEL command that keeps Wwise plugin in sync with latest keyframes
     try:
         mel.eval("%s;" % melCmd)
-    except RuntimeError, e:
+    except RuntimeError as e:
         cmds.warning("Failed to execute %s because: %s" % (melCmd, str(e).replace(os.linesep, '. ')))
         if "cannot find procedure" in str(e).lower():
             cmds.warning("Try reloading the '%s' plugin" % pluginName)
@@ -260,7 +271,7 @@ def playAudioEvent(audioEvent, pluginName=WWISE_PLUGIN_NAME, melCmd=PLAY_AUDIO_E
     melCmd = "%s %s" % (melCmd, audioEvent)
     try:
         mel.eval("%s;" % melCmd)
-    except RuntimeError, e:
+    except RuntimeError as e:
         cmds.warning("Failed to execute %s because: %s" % (melCmd, str(e).replace(os.linesep, '. ')))
         if "cannot find procedure" in str(e).lower():
             cmds.warning("Try reloading the '%s' plugin" % pluginName)
@@ -272,7 +283,7 @@ def setParameter(paramName, paramValue, pluginName=WWISE_PLUGIN_NAME, melCmd=SET
     melCmd = "%s %s %s" % (melCmd, paramName, paramValue)
     try:
         mel.eval("%s;" % melCmd)
-    except RuntimeError, e:
+    except RuntimeError as e:
         cmds.warning("Failed to execute %s because: %s" % (melCmd, str(e).replace(os.linesep, '. ')))
         if "cannot find procedure" in str(e).lower():
             cmds.warning("Try reloading the '%s' plugin" % pluginName)
@@ -350,7 +361,7 @@ def loadAudioGroupsFromPy(audioGroupsPyFile=None, audioGroupsFile=AUDIO_GROUPS_F
         audioToolsDir = getAudioToolsDir()
         audioGroupsPyFile = os.path.join(audioToolsDir, audioGroupsFile + ".py")
     if audioGroupsPyFile and os.path.isfile(audioGroupsPyFile):
-        audioGroupsMod = imp.load_source(audioGroupsFile, audioGroupsPyFile)
+        audioGroupsMod = load_source(audioGroupsFile, audioGroupsPyFile)
         audioGroups = copy.copy(eval("audioGroupsMod.%s" % audioGroupsAttr))
         return audioGroups
     else:
@@ -394,7 +405,7 @@ def loadAudioAttrsFromPy(audioPyFile=None, audioTypes=AUDIO_EVENT_TYPES, audioGr
         audioPyFile = os.path.join(audioToolsDir, audioTypes + ".py")
 
     if audioPyFile and os.path.isfile(audioPyFile):
-        audioMod = imp.load_source(audioTypes, audioPyFile)
+        audioMod = load_source(audioTypes, audioPyFile)
 
         if not audioGroupPaths:
             audioGroupPaths = AUDIO_INFO_CLASSES[audioTypes]
@@ -438,11 +449,11 @@ def loadAudioAttrsFromPy(audioPyFile=None, audioTypes=AUDIO_EVENT_TYPES, audioGr
                             groupedAudioNames[ALL_GROUP].append(wwiseName)
 
         audioNamesSorted = audioIds.keys()
-        audioNamesSorted.sort()
+        audioNamesSorted = sorted(audioNamesSorted)
 
         if recursive:
             all_subAudioIds = {}
-            for wwiseName, subAudioGroup in subAudioGroups.iteritems():
+            for wwiseName, subAudioGroup in subAudioGroups.items():
                 # If we decide to NOT have invalid be selectable...
                 # if wwiseName == "Invalid":
                 #     all_subAudioIds[wwiseName] = []
@@ -483,8 +494,7 @@ def loadAudioAttrsFromJson(audioEventJsonFile=None):
         for event in data:
             audioIds[event["wwiseName"]] = event["wwiseIdValue"]
         if data:
-            audioNamesSorted = audioIds.keys()
-            audioNamesSorted.sort()
+            audioNamesSorted = sorted(audioIds)
     else:
         cmds.warning("audio events json file (%s) not found" % audioEventJsonFile)
     return (audioNamesSorted, audioIds)
@@ -651,7 +661,7 @@ def copyTmpFile(tmpFile, destFile):
         shutil.copy(tmpFile, destFile)
     else:
         msg = "There are no changes in %s to copy to %s" % (tmpFile, destFile)
-    print msg
+    print(msg)
 
 
 # Maya stores these enums as an int list, and doing them not in order puts hold in the drop down box :(
@@ -732,7 +742,7 @@ def updateEventIdEnum(oldEnumList, newEnumStr, audioNamesSorted, renameMapping=N
 
 def setAudioParameterKeyframe(keyframeData, parameterNames, displayedAttrNames, nodeName=AUDIO_NODE_NAME):
     currentTime = cmds.currentTime(query=True)
-    for attr_name, attr_values in keyframeData.iteritems():
+    for attr_name, attr_values in keyframeData.items():
         if attr_name in displayedAttrNames.keys():
             displayedAttr = displayedAttrNames[attr_name]
         else:
@@ -771,8 +781,7 @@ def setAudioParameterKeyframe(keyframeData, parameterNames, displayedAttrNames, 
                     variantAttr = displayedAttr
                 else:
                     variantAttr = displayedAttr + str(i+1)
-                enumNames = parameterNames[attr_name].keys()
-                enumNames.sort()
+                enumNames = sorted(parameterNames[attr_name])
 
                 if not cmds.attributeQuery(variantAttr, node=nodeName, exists=True):
                     enums_as_str = ":".join(enumNames)
@@ -1126,8 +1135,7 @@ def sortAudioEventsByTriggerTime(audioKeyframes):
             cmds.warning("Found multiple audio events for trigger time %s ('%s' and '%s')"
                          % (triggerTime, triggerTimeToEventMapping[triggerTime], audioEvent))
         triggerTimeToEventMapping[triggerTime] = audioEvent
-    triggerTimes = triggerTimeToEventMapping.keys()
-    triggerTimes.sort()
+    triggerTimes = sorted(triggerTimeToEventMapping)
     for triggerTime in triggerTimes:
         audioEvents.append((triggerTimeToEventMapping[triggerTime], triggerTime))
     return audioEvents
