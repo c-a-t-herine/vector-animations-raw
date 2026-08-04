@@ -35,7 +35,7 @@ import json
 import stat
 import pprint
 from collections import OrderedDict
-from ankiutils import mail_tools, svn_tools
+from ankiutils import svn_tools
 
 
 def get_anim_groups(anim_group_dir, strip_ext=True, return_full_paths=False):
@@ -100,7 +100,7 @@ def rename_anim_clips(name_mapping, json_file, sort_order=ALL_ATTRS_SORTED):
             num_anim_clips_renamed += 1
 
     if num_anim_clips_renamed > 0:
-        ordered = [OrderedDict(sorted(item.iteritems(), key=lambda (k, v): sort_order.index(k)))
+        ordered = [OrderedDict(sorted(item.items(), key=lambda k, v: sort_order.index(k)))
                                       for item in anim_group_data[JSON_TOP_KEY]]
         anim_group = {JSON_TOP_KEY : ordered}
         try:
@@ -108,7 +108,7 @@ def rename_anim_clips(name_mapping, json_file, sort_order=ALL_ATTRS_SORTED):
             os.chmod(json_file, json_file_stat.st_mode | stat.S_IWUSR)
             with open(json_file, 'w') as fh:
                 json.dump(anim_group, fh, indent=2, separators=(',', ': '))
-        except (OSError, IOError), e:
+        except (OSError, IOError) as e:
             msg = "Failed to write '%s' file because: %s" % (json_file, e)
             print(msg)
         else:
@@ -124,14 +124,14 @@ def rename_anim_group(rename_mapping, json_file, files_to_commit,
     new_name = rename_mapping[file_name]
     try:
         svn_tools.rename_svn_file(json_file, new_name)
-    except RuntimeError, e:
+    except RuntimeError as e:
         print("Failed to rename '%s' to '%s' because: %s" % (file_name, new_name, e))
     else:
         for trigger_map_file in trigger_map_files:
             trigger_map_file = os.path.expandvars(trigger_map_file)
             try:
                 update_anim_group_reference(trigger_map_file, rename_mapping)
-            except BaseException, e:
+            except BaseException as e:
                 print("ERROR: %s" % e)
         print("Successfully renamed '%s' to '%s'" % (file_name, new_name))
 
@@ -145,7 +145,7 @@ def update_anim_group_reference(trigger_map_file, rename_mapping,
     new_contents = []
     for one_line in orig_contents.split(os.linesep):
         if anim_group_name_key in one_line:
-            for before, after in rename_mapping.iteritems():
+            for before, after in rename_mapping.items():
                 if before in one_line:
                     one_line = one_line.replace(before, after)
         new_contents.append(one_line)
@@ -169,11 +169,6 @@ def alert_anim_group_updated(anim_group, file_path, file_ver, cc_emails=[], user
             if diff_lines:
                 msgs.extend(['', ''])
                 msgs.extend(diff_lines)
-        try:
-            mail_tools.send_msgs(msgs, subject, cc_emails=cc_emails,
-                                 user_name_mapping=user_name_mapping)
-        except ValueError, e:
-            print(e)
 
 
 def test_rename_anim_clips():
