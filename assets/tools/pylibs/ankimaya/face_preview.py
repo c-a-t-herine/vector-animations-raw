@@ -42,28 +42,22 @@ from maya import cmds
 from maya import OpenMayaUI as omui
 from maya import OpenMayaAnim as oma
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout
+
 
 from ankimaya.constants import DATA_NODE_NAME
 from ankimaya.export_for_robot import FLOAT_EQUALITY_TOLERANCE
 from ankimaya import game_exporter, anim_data_manager, robot_data
-from ankibasestation import face_images
+from ankimaya.ankibasestation import face_images
 from ankimaya.interpolation_manager import find_value_for_frame
 
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 def get_tools_dir():
@@ -101,7 +95,7 @@ def run_command_wrapper(cmd, tools_dir=None, shell=False):
         cmds.warning(display_msg)
     elif stdout:
         display_msg = stdout.split(os.linesep)[-1]
-        print display_msg,
+        print(display_msg,)
     return (status, stdout, stderr, display_msg)
 
 
@@ -280,14 +274,14 @@ class FacePreview(QWidget):
 
         # Setup 'frameNums' to be the list of ALL frames that have ANY eye/face attribute keyed...
         frameNums = set()
-        for currAttr, frameData in animData.iteritems():
+        for currAttr, frameData in animData.items():
             if not robot_data.is_procedural_face_attr(currAttr):
                 continue
             frameNums.update(frameData.keys())
         frameNums = list(frameNums)
         frameNums.sort()
 
-        for currAttr, frameData in animData.iteritems():
+        for currAttr, frameData in animData.items():
             if not robot_data.is_procedural_face_attr(currAttr):
                 continue
             for idx in range(len(frameNums)):
@@ -314,12 +308,12 @@ class FacePreview(QWidget):
         try:
             procFaceKeyframes = self.getAllProcFaceKeyframes(animClip[CLIP_START_KEY],
                                                              animClip[CLIP_END_KEY])
-        except ValueError, e:
+        except ValueError as e:
             cmds.warning("Failed to query the procedural face keyframes because: %s" % e)
             return (None, None, None)
         lastKeyframe = None
 
-        for triggerTime, keyframe in sorted(procFaceKeyframes.iteritems()):
+        for triggerTime, keyframe in sorted(procFaceKeyframes.items()):
             if frameNum == triggerTime:
                 return (animClip[CLIP_NAME_KEY], keyframe, None)
             elif frameNum < triggerTime:
@@ -545,7 +539,7 @@ class FacePreviewDisplay(QWidget):
     def draw(self, frameNum):
         try:
             animName, keyframeBefore, keyframeAfter = self.parent().getProcFaceKeyframes(frameNum)
-        except ValueError, e:
+        except ValueError as e:
             cmds.warning(str(e))
             return None
         if keyframeBefore is None and keyframeAfter is None:
@@ -639,7 +633,7 @@ class FacePreviewDisplay(QWidget):
         target = int(math.ceil(self.currentFrame - 1))
         try:
             result = self._updateCurrentFrame(target, startFrame, startFrame, endFrame)
-        except ValueError, e:
+        except ValueError as e:
             cmds.warning(str(e))
         else:
             if self.updateTimeslider:
@@ -653,7 +647,7 @@ class FacePreviewDisplay(QWidget):
         target = int(math.floor(self.currentFrame + 1))
         try:
             result = self._updateCurrentFrame(target, endFrame, startFrame, endFrame)
-        except ValueError, e:
+        except ValueError as e:
             cmds.warning(str(e))
         else:
             if self.updateTimeslider:

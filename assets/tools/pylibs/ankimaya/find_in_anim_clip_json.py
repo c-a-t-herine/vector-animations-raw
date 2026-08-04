@@ -23,11 +23,11 @@ def is_all_bad_overshoot_value_json_file(json_path, condition=">", value=0.0):
     new_data = None
     bad_paths = []
     good_value_num = 0
-    print "json_path ",json_path
+    print("json_path ",json_path)
     with open(json_path) as data_file:
         data = json.load(data_file)
-        for clip_name, clip_data in data.iteritems():
-            for frame_num, frame_data in clip_data.iteritems():
+        for clip_name, clip_data in data.items():
+            for frame_num, frame_data in clip_data.items():
                 for i, item in enumerate(frame_data):
                         if check_condition(condition=condition, value01=value, value02=item["overshoot_value"]):
                             bad_paths.append([clip_name,frame_num,i])
@@ -39,10 +39,10 @@ def is_all_bad_overshoot_value_json_file(json_path, condition=">", value=0.0):
     else:
         return False
         # for path in  bad_paths:
-        #     print path
+        #     print(path)
         #     data[path[0]][path[1]][path[2]] = None
         #     #del data[bad_paths[0]][bad_paths[1]][bad_paths[2]]
-        # print data
+        # print(data)
 
 def remove_bad_overshoot_value_jsons(condition=">", value=0.0, path=PROBLEM_JSONS_PATH):
     removed_files = []
@@ -51,8 +51,8 @@ def remove_bad_overshoot_value_jsons(condition=">", value=0.0, path=PROBLEM_JSON
         if (is_all_bad_overshoot_value_json_file(json_path=file_in_question, condition=condition, value=value)):
             removed_files.append(file_in_question)
             os.remove(file_in_question)
-    print "removed %s files" %(len(removed_files))
-    print removed_files
+    print("removed %s files" %(len(removed_files)))
+    print(removed_files)
 
 def check_condition(condition=">", value01=0.0, value02=0.0):
     #todo: try doing this with eval
@@ -67,7 +67,7 @@ def check_condition(condition=">", value01=0.0, value02=0.0):
     elif (condition == ">="):
         if value01 >= value02: return True
     else:
-        print ("%s is not an acceptable condition")
+        print("%s is not an acceptable condition")
 
 def split_list(list_to_split, split_item="__"):
     sub_list = []
@@ -86,14 +86,14 @@ def split_list(list_to_split, split_item="__"):
 #TODO: AT SOME POINT MAKE JSON AUDIT WORK RECURSIVELY
 
 # def track_path_to_key(input_json, target_key, path_tracker=None, last_key=None, separator="__"):
-#     print "path_tracker ", path_tracker
-#     print "last_key ", last_key
+#     print("path_tracker ", path_tracker)
+#     print("last_key ", last_key)
 #     if path_tracker is None:
 #         path_tracker = []
 #
 #     if last_key is not None:
 #         # When function is called, it creates its own scope/block so that changes to variables in function process is isolated from global scope.
-#         print "path_tracker ", path_tracker
+#         print("path_tracker ", path_tracker)
 #         path_tracker = list(path_tracker + [last_key])
 #
 #     if isinstance(input_json, dict) and input_json:
@@ -120,7 +120,7 @@ def split_list(list_to_split, split_item="__"):
 #     all_key_paths_merged = track_path_to_key(input_json=input_json, target_key=key_name, path_tracker=None, last_key=None, separator=separator)
 #     all_key_paths = split_list(all_key_paths_merged, separator)
 #     for key_path in all_key_paths:
-#         print split_list(key_path, None)
+#         print(split_list(key_path, None))
 
 
 
@@ -136,21 +136,21 @@ def split_list(list_to_split, split_item="__"):
 #             all_values.append(data_node[key_name])
 #             if check_condition(condition, data_node[key_name], value):
 #                 problem_values.append(data_node[key_name])
-#             print "key_path.append(%s)" % (key_name)
+#             print("key_path.append(%s)" % (key_name))
 #             key_path.append(key_name)
-#             print "key_path = %s" %(key_path)
+#             print("key_path = %s" %(key_path))
 #             key_paths.append(copy.copy(key_path))
-#             print "key_path = []"
+#             print("key_path = []")
 #             key_path = []
-#         for key, item in data_node.iteritems():
-#             print "key_path.append(%s)" %(key)
+#         for key, item in data_node.items():
+#             print("key_path.append(%s)" %(key))
 #             key_path.append(key)
 #             find_values_in_json_node(key_name, item, all_values, problem_values, key_paths, key_path, condition, value)
 #
 #     elif isinstance(data_node, list) and data_node:
 #         loop_path = []
 #         for i, item in enumerate(data_node):
-#             print "key_path.append(%s)" %(i)
+#             print("key_path.append(%s)" %(i))
 #             #key_path_beofre_loop.append(i)
 #             find_values_in_json_node(key_name, item, all_values, problem_values, key_paths, key_path, condition, value)
     # leaf
@@ -236,16 +236,16 @@ def find_problem_lightness():
                 tar_files.append(file_in_question.split("/")[-1].split(".")[0])
                 all_non_default_lightness.append(lightness_values)
 
-    print "There are %s tar files with non default lightness values" %(len(all_non_default_lightness))
-    print "tar_files=%s" %(tar_files)
+    print("There are %s tar files with non default lightness values" %(len(all_non_default_lightness)))
+    print("tar_files=%s" %(tar_files))
     for lightness_val in all_non_default_lightness:
-        print "\n"
-        for json_name, lightness_vals in lightness_val.iteritems():
-            print "json file: ", json_name
-            print "non default lightness values:", lightness_vals
+        print("\n")
+        for json_name, lightness_vals in lightness_val.items():
+            print("json file: ", json_name)
+            print("non default lightness values:", lightness_vals)
 
-    print "problem_ma_files=%s" %(get_problem_ma_files(tar_files)[1])
-    print "problem_ma_files=%s" % (get_problem_ma_files(tar_files)[0])
+    print("problem_ma_files=%s" %(get_problem_ma_files(tar_files)[1]))
+    print("problem_ma_files=%s" % (get_problem_ma_files(tar_files)[0]))
 
 def main():
     pass
@@ -258,7 +258,7 @@ def main():
 
 # some_json_dict = {"01":{"01_a":0,"01_b":{"id":"correct value"}},"02":{"02_a":0,"02_b":0,"02_c":{"id":1,"id02":"wrong value"}}}
 #
-# print track_path_to_key(some_json_dict,"id", 3)
+# print(track_path_to_key(some_json_dict,"id", 3))
 #
 # def track_path_to_key(input_json, target_key, update_value, path_tracker = None ,  last_key = None):
 #     if path_tracker is None:

@@ -9,7 +9,7 @@ import importlib
 from ankiutils import svn_tools
 from maya import cmds
 from maya import OpenMayaUI as omui
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 import time
 import datetime
 
@@ -27,21 +27,16 @@ GET_SVN_REV = True
 
 '''
 
-# Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
-try:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
-    from PySide2.QtUiTools import *
-    from shiboken2 import wrapInstance
-except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtUiTools import *
+from shiboken6 import wrapInstance
+from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
+from PySide6.QtWidgets import QCheckBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QLabel
+
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 class DevLabel(QWidget):
@@ -125,7 +120,7 @@ class DevLabel(QWidget):
 class DevWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super(DevWidget, self).__init__(*args, **kwargs)
-        print "__file__=", __file__
+        print("__file__=", __file__)
         self.rev = svn_tools.get_svn_file_rev(__file__.replace('.pyc', '.py'))
         self.setParent(mayaMainWindow)
         self.setWindowFlags(Qt.Window)

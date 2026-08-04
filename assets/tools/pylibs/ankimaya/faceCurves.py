@@ -26,7 +26,7 @@ class FaceCurves(object):
        if mesh is None:
            mesh = pm.ls(sl=True)[0]
        if mesh is None:
-           print "select a mesh."
+           print("select a mesh.")
            return
        nv = pm.polyEvaluate(v=True)
        for vertn in range(nv):

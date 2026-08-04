@@ -3,7 +3,7 @@ import sys
 import maya.cmds as cmds
 import subprocess
 import importlib
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 
 # Maya 2016 uses PySide and Maya 2017+ uses PySide2, so try PySide2 first before resorting to PySide
 try:
@@ -13,10 +13,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QPushButton, QWidget, QVBoxLayout, QLabel
+
 
 ROBOT_PROJECT = 'victor-animation'
 
@@ -38,7 +40,7 @@ stderr_pipe = subprocess.PIPE
 
 def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shell=False, split=False):
     if VERBOSE:
-        print "CMD=", cmd
+        print("CMD=", cmd)
     if split:
         cmd = cmd.split()
     try:
@@ -49,15 +51,15 @@ def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shel
     (stdout, stderr) = p.communicate()
     status = p.poll()
     if VERBOSE:
-        print "cmd:status: ", status
-        print "cmd:stdout: ", stdout
-        print "cmd:stderr: ", stderr
+        print("cmd:status: ", status)
+        print("cmd:stdout: ", stdout)
+        print("cmd:stderr: ", stderr)
     return (status, stdout, stderr)
 
 
 def switch_workspace():
-    print switch_sys_path()
-    print switch_env()
+    print(switch_sys_path())
+    print(switch_env())
 
 
 def switch_sys_path():
@@ -125,7 +127,7 @@ def switch_env():
         cmds.unloadPlugin(PLUGIN)
     cmds.loadPlugin(PLUGIN)
 
-    if VERBOSE: print "Wrote out maya.env file"
+    if VERBOSE: print("Wrote out maya.env file")
     return current_state
 
 
@@ -162,7 +164,7 @@ class WorkspaceSwitchWidget(QWidget):
 
     def close(self):
         global _dockControl
-        print _dockControl
+        print(_dockControl)
         try:
             cmds.deleteUI(_dockControl)
         except:
@@ -172,17 +174,17 @@ class WorkspaceSwitchWidget(QWidget):
         """This is a barebones svn update for the svn_workspace
         it doesnt report anything except for printing stdout stderr to the script editor"""
         (status, stdout, stderr) = run_command_core(SVN_UPDATE_CMD, shell=True)
-        print status
-        print stdout
-        print stderr
+        print(status)
+        print(stdout)
+        print(stderr)
 
     def _remoteCheckout(self):
         """This is a barebones svn checkout for the svn_workspace
         it doesnt report anything except for printing stdout stderr to the script editor"""
         (status, stdout, stderr) = run_command_core(REMOTE_CHECKOUT, shell=True)
-        print status
-        print stdout
-        print stderr
+        print(status)
+        print(stdout)
+        print(stderr)
 
     def _checkState(self):
         self.currentState = 'dev (workspace)'
@@ -211,12 +213,12 @@ class WorkspaceSwitchWidget(QWidget):
                 continue
 
             anki_mods.append(m)
-            if VERBOSE: print 'before switch: ', m, sys.modules[m]
+            if VERBOSE: print('before switch: ', m, sys.modules[m])
         for m in anki_mods:
             del sys.modules[m]
         for m in anki_mods:
             importlib.import_module(m)
-            if VERBOSE: print 'after switch: ', m, sys.modules[m]
+            if VERBOSE: print('after switch: ', m, sys.modules[m])
 
 
 _dockControl = None
