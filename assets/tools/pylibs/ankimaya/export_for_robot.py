@@ -208,10 +208,10 @@ class JsonAnimClip(object):
         procFaceKeyframes = {}
         head_angle_keyframes = []
         unscaled_start_frame = self.clip_start / TIME_SCALE_HACK
-        for curr_attr, frame_data in self.anim_data.iteritems():
+        for curr_attr, frame_data in self.anim_data.items():
             isProceduralFaceAttr = is_procedural_face_attr(curr_attr)
             frame_nums = frame_data.keys()
-            frame_nums.sort()
+            frame_nums = sorted(frame_nums)
             for idx in range(len(frame_nums)):
                 trigger_time_ms = int(je.convert_time(frame_nums[idx]))
                 if isProceduralFaceAttr:
@@ -231,7 +231,7 @@ class JsonAnimClip(object):
                                                 all_head_angle_keyframes_offset, last_head_angle_keyframe_offset)
         if procFaceKeyframes:
             # Append the procedural face keyframes in order of trigger time...
-            for trigger_time, keyframe in sorted(procFaceKeyframes.iteritems()):
+            for trigger_time, keyframe in sorted(procFaceKeyframes.items()):
                 self.json_arr.append(keyframe)
 
     def is_last_keyframe(self, keyframe_idx, frame_nums, frame_data):
@@ -344,7 +344,7 @@ class JsonAnimClip(object):
         try:
             (event_audio_json, problems) = je.get_audio_json(self.groupedAudioKeyframes, clip_name,
                                                              self.clip_start, self.clip_end)
-        except ValueError, e:
+        except ValueError as e:
             self.problem_list.extend(str(e).split(os.linesep))
             return None
         event_audio_json = sorted(event_audio_json, key=lambda k: k[TRIGGER_TIME_KEY])
@@ -593,7 +593,7 @@ def convert_to_binary_and_send_to_robot(json_files, tar_file, ip_address=None):
     bin_name = bin_name.lower()
     try:
         bin_file = binary_conversion.main(json_files, bin_name)
-    except StandardError, e:
+    except StandardError as e:
         print("%s: %s" % (type(e).__name__, e.message))
     else:
         if not ip_address:
@@ -603,7 +603,7 @@ def convert_to_binary_and_send_to_robot(json_files, tar_file, ip_address=None):
                 preview_selector.transfer_file(ip_address, bin_file)
                 preview_selector.update_animation(ip_address, bin_file)
                 preview_selector.update_animation(ip_address, bin_file, engine=True)
-            except RuntimeError, e:
+            except RuntimeError as e:
                 msg = str(e).split(os.linesep)[0]
             else:
                 print("Transfered %s to %s" % (bin_file, ip_address))
@@ -755,7 +755,7 @@ def export_robot_anim(export_path=None, package_output=True, all_clips=False,
         cmds.select(clear=True)
         try:
             cmds.file(save=True, type='mayaAscii', prompt=False)
-        except (RuntimeError, OSError), e:
+        except (RuntimeError, OSError) as e:
             msg = str(e).strip().split(os.linesep)
             add_json_node(node_name="File saving",
                           fix_function="", status="warning",
@@ -773,9 +773,9 @@ def export_robot_anim(export_path=None, package_output=True, all_clips=False,
     if output_files:
         print(os.linesep + "The following files were exported:")
         print(os.linesep.join(output_files) + os.linesep)
-        print "Export complete",
+        print("Export complete",)
     else:
-        print os.linesep + "No files were exported",
+        print(os.linesep + "No files were exported",)
 
     if tar_file_msg:
         add_json_node(node_name="Tar file",

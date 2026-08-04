@@ -67,7 +67,7 @@ class HeadAngleConfig(object):
     def get_which_keyframe_params(self, which_keyframe_code):
         try:
             return self.which_keyframes_config[which_keyframe_code][0]
-        except KeyError, e:
+        except KeyError as e:
             print(e)
             return self.which_keyframes_config[DEFAULT_WHICH_KEYFRAME][0]
 
@@ -80,7 +80,7 @@ class HeadAngleConfig(object):
             msg += ", so no offsets will be returned"
             print(msg)
             return []
-        offsets = self.head_angle_config[num_variations].keys()
+        offsets = list(self.head_angle_config[num_variations].keys())
         if remove_zero_offset:
             try:
                 offsets.remove(0)
@@ -92,7 +92,7 @@ class HeadAngleConfig(object):
     def get_which_keyframes_display_string(self, dict_key):
         try:
             return self.which_keyframes_config[dict_key][1]
-        except KeyError, e:
+        except KeyError as e:
             print(e)
             return ''
 
@@ -109,8 +109,7 @@ class HeadAngleConfig(object):
 
     def get_num_variations_display_strings(self):
         display_strings = []
-        num_variations_options = self.head_angle_config.keys()
-        num_variations_options.sort()
+        num_variations_options = sorted(self.head_angle_config)
         for num_variations in num_variations_options:
             display_strings.append(self.get_num_variations_display_string(num_variations))
         return display_strings

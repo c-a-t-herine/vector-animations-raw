@@ -145,10 +145,12 @@ try:
     from PySide2.QtUiTools import *
     from shiboken2 import wrapInstance
 except ImportError:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
-    from PySide.QtUiTools import *
-    from shiboken import wrapInstance
+    from PySide6.QtCore import *
+    from PySide6.QtGui import *
+    from PySide6.QtUiTools import *
+    from shiboken6 import wrapInstance
+    from PySide6.QtWidgets import QApplication, QCheckBox, QLineEdit, QMessageBox, QLabel, QComboBox, QPushButton, QWidget, QGridLayout, QVBoxLayout, QScrollArea, QHBoxLayout
+
 
 from ankimaya import game_exporter
 import ankimaya.publish as publish
@@ -156,12 +158,12 @@ from ankiutils.anim_files import get_newest_json_file, get_json_file_for_anim, r
 from robot_config import BATTERY_VOLTAGE_LABEL, BATTERY_VOLTAGE_LOW_THRESHOLD
 from ankimaya.head_angle_selector import getHeadAngleVariationExportSettings
 from ankiutils.head_angle_config import HeadAngleConfig
-from window_docker import Dock
+from ankimaya.window_docker import Dock
 
 from vector_dialog import *
 
 mayaMainWindowPtr = omui.MQtUtil.mainWindow()
-mayaMainWindow = wrapInstance(long(mayaMainWindowPtr), QWidget)
+mayaMainWindow = wrapInstance(int(mayaMainWindowPtr), QWidget)
 
 
 # the scriptJob runs when a scene has been loaded to refresh the animation clips listed in the drop down menu
@@ -208,7 +210,7 @@ def update_animation(ipAddress, animFile, animFuncCallUrl=ROBOT_ANIM_FUNC_CALL_W
         addAnimUrl = addAnimUrl.replace(ANIM_PORT, ENGINE_PORT)
     try:
         r = requests.post(addAnimUrl, timeout=10.0)
-    except EnvironmentError, e:
+    except EnvironmentError as e:
         err_msg = "Failed to add/update animation from %s file because: %s" % (animFile, e)
         err_msg += os.linesep + "(tried: %s)" % addAnimUrl
         cmds.warning(err_msg)
@@ -218,11 +220,11 @@ def update_animation(ipAddress, animFile, animFuncCallUrl=ROBOT_ANIM_FUNC_CALL_W
 def transfer_file(ipAddress, animFile, animResourcesUrl=ROBOT_ANIM_RESOURCES_URL, retry=True):
     err_msg = None
     file_stat_msg = report_file_stats(animFile)
-    print file_stat_msg,
+    print(file_stat_msg,)
     animFileUrl = animResourcesUrl % (ipAddress, os.path.basename(animFile))
     try:
         r = requests.put(animFileUrl, data=open(animFile, 'rb').read(), timeout=10.0)
-    except EnvironmentError, e:
+    except EnvironmentError as e:
         err_msg = "Failed to transfer %s file because: %s" % (animFile, e)
         err_msg += os.linesep + "(tried: %s)" % animFileUrl
         cmds.warning(err_msg)
@@ -248,7 +250,7 @@ def play_anim_clips(ipAddress, animClips=None, animFiles=None, robotVolume=None,
     if not exportPath:
         try:
             exportPath = get_export_path()
-        except ValueError, e:
+        except ValueError as e:
             exportPath = None
 
     if not animClips:
@@ -274,7 +276,7 @@ def play_anim_clips(ipAddress, animClips=None, animFiles=None, robotVolume=None,
                 transfer_file(ipAddress, animFile)
                 update_animation(ipAddress, animFile, animFuncCallUrl)
                 update_animation(ipAddress, animFile, animFuncCallUrl, engine=True)
-            except RuntimeError, e:
+            except RuntimeError as e:
                 err_msg = str(e).split(os.linesep)[0]
                 cmds.warning(err_msg)
                 return err_msg
@@ -297,12 +299,12 @@ def play_anim_clips(ipAddress, animClips=None, animFiles=None, robotVolume=None,
             # do not wait if we are playing the last or only script
             if numClips > 1 and clipCount != numClips - 1:
                 waitForAnim(robotStatusLabel=robotStatusLabel, robotIpAddress=ipAddress)
-        except requests.exceptions.ConnectionError, e:
+        except requests.exceptions.ConnectionError as e:
             msg = "Failed to play '%s' animation; check robot connection" % animClip
             cmds.warning(msg)
             if PUBLICKEY_MSG in msg:
                 cmds.warning("Public key error; try 'Get Public Key' in the context menu to fix this")
-        except EnvironmentError, e:
+        except EnvironmentError as e:
             msg = "Failed to play '%s' animation because: %s" % (animClip, e)
             cmds.warning(msg)
         clipCount += 1
@@ -381,7 +383,7 @@ def run_command_wrapper(cmd, tools_dir=None, shell=False):
         cmds.warning(display_msg)
     elif stdout:
         display_msg = stdout.split(os.linesep)[-1]
-        print display_msg,
+        print(display_msg,)
     return (status, stdout, stderr, display_msg)
 
 
@@ -1000,7 +1002,7 @@ class PreviewSettings(QWidget):
         # rid of this and the subsequent logic for querying and passing along the animation files.
         try:
             exportPath = get_export_path()
-        except ValueError, e:
+        except ValueError as e:
             self.statusLineedit.setText(str(e))
             return None
 
@@ -1021,7 +1023,7 @@ class PreviewSettings(QWidget):
                 animFiles.append(animFile)
         if not animClips:
             msg = "No animation specified to play"
-            print msg,
+            print(msg,)
             self.statusLineedit.setText(msg)
             qApp.processEvents()
             return None
@@ -1148,7 +1150,7 @@ class PreviewSettings(QWidget):
         install = self.alertUserInstall(installMsg)
         if not install:
             msg = "Installation aborted"
-            print msg,
+            print(msg,)
             self.statusLineedit.setText(msg)
             return False
         if not self.tools_dir:
@@ -1180,13 +1182,14 @@ class PreviewSettings(QWidget):
         See VIC-1445 for additional details.
         """
         import console_var_settings
-        reload(console_var_settings)
+        import importlib
+        importlib.reload(console_var_settings)
         ipAddress = self.getRobotIpAddress()
         for consoleFunc in console_var_settings.CONSOLE_FUNCTIONS:
             thisUrl = funcCallUrl % (ipAddress, consoleFunc)
             try:
                 r = requests.post(thisUrl, timeout=5.0)
-            except EnvironmentError, e:
+            except EnvironmentError as e:
                 display_msg = "Failed to call '%s' function because: %s" % (consoleFunc, e)
                 cmds.warning(display_msg)
         for var, val in console_var_settings.CONSOLE_VAR_VALUES.items():
@@ -1194,7 +1197,7 @@ class PreviewSettings(QWidget):
             print(thisUrl)
             try:
                 r = requests.post(thisUrl, timeout=5.0)
-            except EnvironmentError, e:
+            except EnvironmentError as e:
                 display_msg = "Failed to set '%s' variable to '%s' because: %s" % (var, val, e)
                 cmds.warning(display_msg)
 
@@ -1202,13 +1205,13 @@ class PreviewSettings(QWidget):
         if not self._prepInstall(installMsg):
             return None
         inProgressMsg = "Installing %s..." % installMsg
-        print inProgressMsg,
+        print(inProgressMsg,)
         self.statusLineedit.setText(inProgressMsg)
         qApp.processEvents()
         status, stdout, stderr = self.runCommandWrapper(installCmd)
         if status == 0:
             completedMsg = "Installation of %s completed" % installMsg
-            print completedMsg,
+            print(completedMsg,)
             self.statusLineedit.setText(completedMsg)
 
     def alertUserInstall(self, installMsg):
@@ -1307,7 +1310,7 @@ class AnimToPlay(QWidget):
         # Add current anim clips to the pulldown menu
         try:
             animClips = self.getAnimClips()
-        except BaseException, e:
+        except BaseException as e:
             cmds.warning("Failed to get the list of animation clips from the Game Exporter")
             animClips = []
         for animClip in animClips:
@@ -1342,8 +1345,7 @@ class AnimToPlay(QWidget):
                 animClips.append(anim)
             if numVariations:
                 varMapping = headAngleConfig.get_anim_variation_to_range_mapping(anim, numVariations)
-                sortedClips = varMapping.keys()
-                sortedClips.sort()
+                sortedClips = sorted(varMapping)
                 for anim_variation in sortedClips:
                     if anim_variation not in animClips:
                         animClips.append(anim_variation)

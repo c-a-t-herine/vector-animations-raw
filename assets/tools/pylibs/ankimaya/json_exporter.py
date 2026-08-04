@@ -147,7 +147,7 @@ class JsonExporter(object):
         """
         json_nodes = []
         frame_nums = self.lights_data.keys()
-        frame_nums.sort()
+        frame_nums = sorted(frame_nums)
         for idx in range(len(frame_nums) - 1):
             json_node = self.generate_backpack_json_node(frame_nums[idx], frame_nums[idx + 1])
             if json_node is not None:
@@ -168,7 +168,7 @@ class JsonExporter(object):
         json_node["durationTime_ms"] = duration
         json_node["triggerTime_ms"] = frame_num_ms
 
-        for side, rgb_values in self.lights_data[current_frame].iteritems():
+        for side, rgb_values in self.lights_data[current_frame].items():
             json_node[side.capitalize()] = rgb_values
 
         return json_node
@@ -381,16 +381,16 @@ def _val_in_range(val, min, max):
 def group_audio_by_frame_num(groupedAudioKeyframes):
     all_frames = []
     actions_by_frame = {}
-    for action, keyframes in groupedAudioKeyframes.iteritems():
-        for attr, values in keyframes.iteritems():
+    for action, keyframes in groupedAudioKeyframes.items():
+        for attr, values in keyframes.items():
             if values[1]:
                 all_frames.extend(values[1])
     all_frames = list(set(all_frames))
     for frame in all_frames:
         actions_by_frame[frame] = {}
-        for action, keyframes in groupedAudioKeyframes.iteritems():
+        for action, keyframes in groupedAudioKeyframes.items():
             actions_by_frame[frame][action] = {}
-            for attr, values in keyframes.iteritems():
+            for attr, values in keyframes.items():
                 if values[1] and frame in values[1]:
                     frame_idx = values[1].index(frame)
                     actions_by_frame[frame][action][attr] = values[0][frame_idx]
@@ -417,7 +417,7 @@ def get_audio_json(grouped_audio_keyframes, clip_name, clip_start, clip_end,
 
     param_frame_num = 0
     looping_event_tracker = []
-    for frame, grouped_actions in audio_keyframes_by_frame.iteritems():
+    for frame, grouped_actions in audio_keyframes_by_frame.items():
         if clip_start <= frame <= clip_end:
             # no default audio json, because some actions might not be a part of the json audio node
             if EVENT_GROUPS_ATTR in grouped_actions.keys() and grouped_actions[EVENT_GROUPS_ATTR] != {}:
@@ -426,7 +426,7 @@ def get_audio_json(grouped_audio_keyframes, clip_name, clip_start, clip_end,
                 audio_json = copy.deepcopy(DEFAULT_EMPTY_AUDIO_JSON)
             trigger_time = convert_time(scale_frame(frame, clip_start))
             audio_json[trigger_time_attr] = trigger_time
-            for action, action_values in grouped_actions.iteritems():
+            for action, action_values in grouped_actions.items():
                 if action_values != {}:
                     if action == EVENT_GROUPS_ATTR:
                         audio_keyframes = grouped_audio_keyframes[action]
@@ -508,7 +508,7 @@ def get_non_event_actions_json(audio_json, action, action_values, param_frame_nu
 
     # find original attributes (that don't have numbers at the end of the name)
     # the variants are added to their lists
-    for attr, value in action_values.iteritems():
+    for attr, value in action_values.items():
         if re.search(r'\d+$', attr) is None:
             sorted_values = get_audio_variant_attr_values(action_values, attr)
             all_sorted_values[attr] = sorted_values
@@ -517,7 +517,7 @@ def get_non_event_actions_json(audio_json, action, action_values, param_frame_nu
     for i in range(action_node_num):
         audio_json[action].append(copy.deepcopy(AUDIO_ACTION_DEFAULT_DICT[action]))
 
-    for attr, values in all_sorted_values.iteritems():
+    for attr, values in all_sorted_values.items():
         for i in range(len(values)):
             json_attr = AUDIO_ATTR_TO_JSON_ATTR[attr]
             if attr in TOP_LEVEL_ENUM_ATTRS:
@@ -549,7 +549,7 @@ def get_non_event_actions_json(audio_json, action, action_values, param_frame_nu
 def get_audio_variant_attr_values(values, original_attr):
     attr_values = []
     variant_attrs = []
-    for attr, value in values.iteritems():
+    for attr, value in values.items():
         if (attr[:len(original_attr)] == original_attr):
             variant_attrs.append(attr)
     variant_attrs.sort()

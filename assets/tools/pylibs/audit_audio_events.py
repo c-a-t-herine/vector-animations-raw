@@ -116,7 +116,7 @@ def get_audio_event_usage_in_anim(json_file):
     fh = open(json_file, 'r')
     try:
         contents = json.load(fh)
-    except StandardError, e:
+    except StandardError as e:
         print("Failed to read %s file because: %s" % (json_file, e))
         return (events_by_anim_clip, anim_clips_by_event)
     finally:
@@ -175,8 +175,7 @@ def main():
     #pprint.pprint(tar_file_dict)
 
     events_by_anim_clip, anim_clips_by_event = get_audio_event_usage(tar_file_dict, audio_event)
-    all_audio_events_in_use = anim_clips_by_event.keys()
-    all_audio_events_in_use.sort()
+    all_audio_events_in_use = sorted(anim_clips_by_event)
     print("---------------------------------------------------------")
     print("all audio events in use = %s" % len(all_audio_events_in_use))
     pprint.pprint(all_audio_events_in_use)

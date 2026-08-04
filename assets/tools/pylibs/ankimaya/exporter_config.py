@@ -182,8 +182,7 @@ class ExporterConfig(object):
 
     def get_all_display_strings(self):
         display_strings = []
-        version_num_options = self.exporter_config.keys()
-        version_num_options.sort()
+        version_num_options = sorted(self.exporter_config)
         for version_num in version_num_options:
             display_strings.append(self.get_display_string(version_num))
         return display_strings
