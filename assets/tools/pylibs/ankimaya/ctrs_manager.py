@@ -18,7 +18,7 @@ def get_all_connected_ctrs():
         connected_ctrs = []
     for attr in data_attributes:
         driver = mc.setDrivenKeyframe(DATA_NODE + "." + attr, driver=1, q=1)
-        if driver[0] == "No drivers.":
+        if driver is None:
             continue
         ctr_name = driver[0].split(".")[0]
         connected_ctrs.append(ctr_name)
