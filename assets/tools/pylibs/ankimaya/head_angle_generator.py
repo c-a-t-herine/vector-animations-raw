@@ -133,7 +133,7 @@ class HeadAngleGenerator(object):
             else:
                 self.head_angle_clips.append(clip_name)
         if len(self.head_angle_clips)>0 and len(self.head_angle_clips)!=len(self.original_clips)*3:
-            print ("wrong head angle clip number. PLease delete head angles before reexporting")
+            print("wrong head angle clip number. PLease delete head angles before reexporting")
             return False
         return True
 
@@ -202,7 +202,7 @@ class HeadAngleGenerator(object):
         if all_frames:
             return max(all_frames)
         else:
-            print "can't find an end frame"
+            print("can't find an end frame")
             return 0
 
 

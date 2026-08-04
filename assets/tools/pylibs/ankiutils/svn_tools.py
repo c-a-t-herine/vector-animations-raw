@@ -67,13 +67,13 @@ def is_up(url_string=ROOT_URL):
     try:
         urllib2.urlopen(url_string)
         return True
-    except urllib2.HTTPError, e:
+    except urllib2.HTTPError as e:
         if e.code == 401:
             # Authentication error site is up and requires login.
             return True
         print('is_up error: {0}'.format(e.code))
         return False
-    except urllib2.URLError, e:
+    except urllib2.URLError as e:
         return False
 
 
@@ -583,7 +583,7 @@ def check_svn_file_lock(file_in_svn, lock_owner_prefix="Lock Owner", info_delimi
     if remote:
         try:
             url = get_svn_file_url(file_in_svn, credentials=credentials)
-        except ValueError, e:
+        except ValueError as e:
             print(e)
         else:
             if url:

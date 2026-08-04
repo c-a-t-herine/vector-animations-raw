@@ -96,56 +96,56 @@ class AdjustEyeRig(object):
 
     def disconnect_jnts(self):
 
-        for output, input in OUTPUT_INPUT_ATTR_JNTS_DICT.iteritems():
+        for output, input in OUTPUT_INPUT_ATTR_JNTS_DICT.items():
             try:
                 mc.disconnectAttr(output, input)
             except Exception:
-                print ("skiped %s" %(input))
+                print("skipped %s" %(input))
         # mc.disconnectAttr("mech_eye_R_drv_loc.scale", "eyeLid_R_bttm_jnt_grp.scale")
 
-        for constr, constr_info in JNT_CONSTRAINTS.iteritems():
+        for constr, constr_info in JNT_CONSTRAINTS.items():
             try:
                 mc.delete(constr)
             except Exception:
-                print "skipping %s constraint deletion" %(constr)
+                print("skipping %s constraint deletion" %(constr))
 
-        for jnt_child, jnt_parent in JNTS_PARENTING_INFO.iteritems():
+        for jnt_child, jnt_parent in JNTS_PARENTING_INFO.items():
             try:
                 mc.parent(jnt_child, world=True)
             except Exception:
-                print ("skipping unparenting %s" % (jnt_child))
+                print("skipping unparenting %s" % (jnt_child))
 
     def disconnect_main_loc(self):
-        for output, input in OUTPUT_INPUT_ATTR_ALL_DRV_DICT.iteritems():
+        for output, input in OUTPUT_INPUT_ATTR_ALL_DRV_DICT.items():
             try:
                 mc.disconnectAttr(output, input)
             except Exception:
-                print ("skipping %s, %s" %(output, input))
+                print("skipping %s, %s" %(output, input))
 
     def connect_main_loc(self):
-        for output, input in OUTPUT_INPUT_ATTR_ALL_DRV_DICT.iteritems():
+        for output, input in OUTPUT_INPUT_ATTR_ALL_DRV_DICT.items():
             mc.connectAttr(output, input)
 
     def connect_jnts(self):
-        for jnt_child, jnt_parent in JNTS_PARENTING_INFO.iteritems():
+        for jnt_child, jnt_parent in JNTS_PARENTING_INFO.items():
             try:
                 mc.parent(jnt_child, jnt_parent)
             except Exception:
-                print ("skipping parenting %s to %s" % (jnt_child, jnt_parent))
+                print("skipping parenting %s to %s" % (jnt_child, jnt_parent))
 
-        for constr, constr_info in JNT_CONSTRAINTS.iteritems():
+        for constr, constr_info in JNT_CONSTRAINTS.items():
             if constr_info[0] == "parentConstraint":
                 try:
                     mc.parentConstraint(constr_info[1], constr_info[2], mo=True)
                 except Exception:
-                    print ("skipping parenting %s to %s" % (constr_info[1], constr_info[2]))
+                    print("skipping parenting %s to %s" % (constr_info[1], constr_info[2]))
 
 
-        for output, input in OUTPUT_INPUT_ATTR_JNTS_DICT.iteritems():
+        for output, input in OUTPUT_INPUT_ATTR_JNTS_DICT.items():
             try:
                 mc.connectAttr(output, input)
             except Exception:
-                print ("skiped %s" % (input))
+                print("skiped %s" % (input))
 
 
     def disconnect_mesh_side(self, side="_L_"):
@@ -155,11 +155,11 @@ class AdjustEyeRig(object):
         mc.skinCluster(self.eye_shape, e=True, unbindKeepHistory=True)
         mc.skinCluster(self.bttm_lid, e=True, unbindKeepHistory=True)
         mc.skinCluster(self.top_lid, e=True, unbindKeepHistory=True)
-        for output, input in self.output_input_attr_dict.iteritems():
+        for output, input in self.output_input_attr_dict.items():
             try:
                 mc.disconnectAttr(output, input)
             except Exception:
-                print ("skipping %s, %s" %(output, input))
+                print("skipping %s, %s" %(output, input))
 
         mc.setAttr("eyeLid"+side+"top_bend_jnt.scaleY", 1)
         mc.setAttr("eyeLid" + side + "bttm_bend_jnt.scaleY", 1)
@@ -169,21 +169,21 @@ class AdjustEyeRig(object):
         self.populate_eye_data(side=side)
 
         # reskin
-        for geo, jnts in self.geo_jnts_dict.iteritems():
+        for geo, jnts in self.geo_jnts_dict.items():
             try:
                 mc.skinCluster(jnts, geo, tsb=True)
             except Exception:
-                print ("skipping %s, %s " %(geo, jnts))
+                print("skipping %s, %s " %(geo, jnts))
 
         mc.setAttr("eyeLid"+side+"top_bend_jnt.scaleY", 0)
         mc.setAttr("eyeLid" + side + "bttm_bend_jnt.scaleY", 0)
 
         #restore connections
-        for output, input in self.output_input_attr_dict.iteritems():
+        for output, input in self.output_input_attr_dict.items():
             try:
                 mc.connectAttr(output, input)
             except Exception:
-                print ("skiped %s" % (input))
+                print("skiped %s" % (input))
 
 
 def lockUnlockEyeAttrs(lock=True):

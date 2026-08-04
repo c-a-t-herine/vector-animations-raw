@@ -154,7 +154,7 @@ def main(args=None, update_zero=True, mock_flag=MOCK_FLAG, audit_flag=AUDIT_FLAG
             continue
         try:
             current_version = update_maya_file(maya_file, set_version, update_versions, audit, mock_mode)
-        except RuntimeError, e:
+        except RuntimeError as e:
             problems[maya_file] = str(e).strip()
             continue
         final_versions[maya_file] = current_version

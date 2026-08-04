@@ -44,7 +44,7 @@ EYE_CTRS_VERTICAL_PAIRS = {
 
 def mirror_eyes(r2l=True,l2r=True):
     mc.undoInfo(openChunk=True)
-    for l_attr, r_attr in EYE_CTRS_HORIZONTAL_PAIRS.iteritems():
+    for l_attr, r_attr in EYE_CTRS_HORIZONTAL_PAIRS.items():
         r_h_value = mc.getAttr(r_attr)
         l_h_value = mc.getAttr(l_attr)
         if r2l:
@@ -52,7 +52,7 @@ def mirror_eyes(r2l=True,l2r=True):
         if l2r:
             mc.setAttr(r_attr, -l_h_value)
 
-    for l_attr, r_attr in EYE_CTRS_VERTICAL_PAIRS.iteritems():
+    for l_attr, r_attr in EYE_CTRS_VERTICAL_PAIRS.items():
         r_v_value = mc.getAttr(r_attr)
         l_v_value = mc.getAttr(l_attr)
         if r2l:

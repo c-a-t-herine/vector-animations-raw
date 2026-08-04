@@ -37,7 +37,7 @@ if (`objExists refCam_01`){
     modelEditor -e -imagePlane 1 -cam "refCam_01" "refCam_modelPanel";
     grid -toggle 0;
     showWindow refCam_window;
-    print "Existing reference video loaded";
+    print("Existing reference video loaded");
 
 // No ref camera in the scene -- load a new video.
 

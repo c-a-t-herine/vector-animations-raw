@@ -20,6 +20,6 @@ if __name__ == "__main__":
     try:
         version_num = sys.argv[1]
     except IndexError:
-        print "add version number as first argument"
+        print("add version number as first argument")
     else:
         update_anim(version_num)

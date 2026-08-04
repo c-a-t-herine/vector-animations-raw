@@ -25,7 +25,7 @@ class SelectionHotkeyGenerator(object):
     def store_selected_objects(self, key_name=""):
         selected_objects = mc.ls(sl=True)
         self.key_selectedObjects[key_name] = selected_objects
-        print "stored %s objects as key %s" %(selected_objects, key_name)
+        print("stored %s objects as key %s" %(selected_objects, key_name))
 
     def select_stored_objects(self, key_name=""):
         if key_name in self.key_selectedObjects.keys():

@@ -1,6 +1,7 @@
 import maya.cmds as mc
 import ankimaya.coz2vic_anim_converter as coz2vic
-reload(coz2vic)
+import importlib
+importlib.reload(coz2vic)
 import json
 import os
 import copy
@@ -136,8 +137,8 @@ class EyeScreenIntersection(object):
         current_pos = mc.xform(L_EYE_LOC, q=True, t=True, ws=True)
         for left_limit in self.screen_left_limit_xs:
             if current_pos[0] < left_limit:
-                # print "current_pos[0] ", current_pos[0]
-                # print "left_limit ", left_limit
+                # print("current_pos[0] ", current_pos[0])
+                # print("left_limit ", left_limit)
                 problem_loc_info = self.add_to_json(L_EYE_LOC, (left_limit - current_pos[0]), "left")
                 if not self.is_blink():
                     self.problem_no_blinks_locators.append(copy.deepcopy(problem_loc_info))
@@ -165,7 +166,7 @@ class EyeScreenIntersection(object):
         mc.currentTime(self.current_frame)
         ctr_attrs = mc.listAttr(ctr, k=True)
         for attr in ctr_attrs:
-            # print mc.getAttr(ctr+"."+attr, time = self.current_frame)
+            # print(mc.getAttr(ctr+"."+attr, time = self.current_frame))
             if mc.getAttr(ctr+"."+attr, time = self.current_frame)!=0\
                     and mc.getAttr(ctr+"."+attr, time = self.current_frame)!=1:
                 return True
@@ -178,7 +179,7 @@ class EyeScreenIntersection(object):
                                mc.xform(BTTM_BLINK_LOCS[1], q=True, t=True, ws=True)[1]]
         for i in range (len(top_blink_positions)):
             if (top_blink_positions[i]-bttm_blink_positions[i])<BLINK_DISTANCE:
-                # print "top_blink_positions[i]-bttm_blink_positions[i] ", (top_blink_positions[i]-bttm_blink_positions[i])
+                # print("top_blink_positions[i]-bttm_blink_positions[i] ", (top_blink_positions[i]-bttm_blink_positions[i]))
                 continue
             else:
                 return False
@@ -229,11 +230,11 @@ class EyeScreenIntersection(object):
     def generate_problem_msg(self):
 
         problem_frames_dict, no_blink_frames_dict, red_flaged_frames_dict  = copy.deepcopy(self.get_problem_frames())
-        print ("Eyes are overlaping screen on frames: \n")
-        for frame, self.problem_locators in problem_frames_dict.iteritems():
-            # print "\n"
-            # print frame
-            print (self.problem_locators)
+        print("Eyes are overlaping screen on frames: \n")
+        for frame, self.problem_locators in problem_frames_dict.items():
+            # print("\n")
+            # print(frame)
+            print(self.problem_locators)
 
     def generate_intersection_json(self, file_name, path, problem_dict):
         problem_frames_dict = copy.deepcopy(problem_dict)
@@ -243,12 +244,12 @@ class EyeScreenIntersection(object):
         output_json = json.dumps(json_dict, sort_keys=False, indent=2, separators=(",", ": "))
         if not os.path.exists(path):
             os.makedirs(path)
-        #print os.path.join(path.split("/"), os.path.basename(file_name) + ".json")
+        #print(os.path.join(path.split("/"), os.path.basename(file_name) + ".json"))
         json_filename = os.path.join(path, file_name + ".json")
         with open(json_filename, "w") as fh:
             fh.write(output_json)
-        print "Output json: "
-        print json_filename
+        print("Output json: ")
+        print(json_filename)
         return output_json
 
     def generate_jsons(self, file_name):
@@ -261,7 +262,7 @@ def generate_jsons_for_multiple_files(ma_files):
     file_num = 0
     for ma_file in ma_files:
         file_num+=1
-        print "\nfile %s of %s\n" %(file_num, len(ma_files))
+        print("\nfile %s of %s\n" %(file_num, len(ma_files)))
         try:
             mc.file(ma_file, force=True, open=True)
             # file ("/Users/dariajerjomina/workspace/victor-animation/assets/rigs/Victor_rig_01.ma",
@@ -272,13 +273,13 @@ def generate_jsons_for_multiple_files(ma_files):
             try:
                 eye_screen_intersection.generate_jsons(os.path.basename(ma_file)[:-3])
             except Exception:
-                print "Could not generate intersection json for %s" % ma_file
+                print("Could not generate intersection json for %s" % ma_file)
             # try:
             #output_json = eye_screen_intersection.generate_intersection_json(os.path.basename(ma_file))
             # except Exception:
-            #     print "Could not generate intersection json for %s" % ma_file
+            #     print("Could not generate intersection json for %s" % ma_file)
         except Exception:
-            print "\n\nCould not analyze %s\n\n" %(ma_file)
+            print("\n\nCould not analyze %s\n\n" %(ma_file))
 
 def check_for_blink():
     # if verteces on the edges of the eyes are intersecting both sides of the screen
@@ -309,9 +310,9 @@ def filter_used_anims(path, destination_path, anim_groups_path = "/Users/dariaje
     used_anim_names = generate_used_file_names(anim_groups_path=anim_groups_path)
     for (dirpath, dirnames, file_names) in os.walk(path):
         for file_name in file_names:
-            #print "file_name ", file_name
+            #print("file_name ", file_name)
             if os.path.splitext(file_name)[0] in used_anim_names:
-                print file_name
+                print(file_name)
                 original_file = os.path.join(dirpath, file_name)
                 copy_file = os.path.join(destination_path, file_name)
                 copyfile(original_file, copy_file)

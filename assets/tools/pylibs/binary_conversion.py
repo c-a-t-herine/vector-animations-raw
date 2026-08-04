@@ -81,7 +81,7 @@ def read_anim_file(anim_file):
     fh = open(anim_file, 'r')
     try:
         contents = json.load(fh)
-    except StandardError, e:
+    except StandardError as e:
         print("Failed to read %s file because: %s" % (anim_file, e))
         raise
     finally:
@@ -129,7 +129,7 @@ def prep_json_for_binary_conversion(anim_name, keyframes):
         # All keyframes are required to have a trigger time.
         try:
             trigger_time = keyframe[TRIGGER_TIME_ATTR]
-        except KeyError, e:
+        except KeyError as e:
             error_msg = "At least one '%s' in '%s' is missing '%s'" % (track, anim_name, TRIGGER_TIME_ATTR)
             raise KeyError(error_msg)
 
@@ -306,7 +306,7 @@ def write_json_file(json_file, data):
     try:
         with open(json_file, 'w') as fh:
             json.dump(data, fh, indent=2, separators=(',', ': '))
-    except (OSError, IOError), e:
+    except (OSError, IOError) as e:
         error_msg = "Failed to write '%s' file because: %s" % (json_file, e)
         print(error_msg)
 

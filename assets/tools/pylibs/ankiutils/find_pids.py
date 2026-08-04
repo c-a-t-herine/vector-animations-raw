@@ -55,7 +55,7 @@ def get_all_pids(ps_cmd=PS_CMD, pid_header=PID_HEADER):
         pid, process_name = pid.split(' ', 1)
         if pid == pid_header:
             continue
-        pid = long(pid)
+        pid = int(pid)
         pid_mapping[pid] = process_name
     return pid_mapping
 
@@ -69,7 +69,7 @@ def main(args, process_name=None, kill=None):
     if kill is None:
         kill = get_kill_value(args)
     pid_mapping = get_all_pids()
-    this_pid = long(os.getpid())
+    this_pid = int(os.getpid())
     print("pid of this process = %s" % this_pid)
     print("number of pids = %s" % len(pid_mapping))
     for pid, proc_name in pid_mapping.items():

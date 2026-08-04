@@ -124,7 +124,7 @@ def render(camera, name, start, end, render_layer=None, settings=RENDER_SETTINGS
     image_files = []
     try:
         start, end = _validate_frame_range(start, end)
-    except (ValueError, TypeError), e:
+    except (ValueError, TypeError) as e:
         cmds.warning(str(e))
         return (image_files, None)
     current_frame = cmds.currentTime(query=True)

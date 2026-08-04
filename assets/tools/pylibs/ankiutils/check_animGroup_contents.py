@@ -23,10 +23,10 @@ COZMO_AG_DIR = os.path.join(os.environ['HOME'], 'workspace', 'victor-animation-a
 tofix = []
 
 for folder in os.listdir(COZMO_AG_DIR):
-    print "\nFOLDER: ",folder
+    print("\nFOLDER: ",folder)
     path = os.path.join(COZMO_AG_DIR, folder)
     for jsonfile in os.listdir(path):
-        print"\tJSONFILE:{0} [{1}]".format(jsonfile,folder)
+        print("\tJSONFILE:{0} [{1}]".format(jsonfile,folder))
         with open( os.path.join(COZMO_AG_DIR, folder, jsonfile)) as f:
             content = f.readlines()
             for l in content:
@@ -43,10 +43,10 @@ for folder in os.listdir(COZMO_AG_DIR):
                     if folder == 'locomotion':
                         if 'hiking' in n or 'driving' in n:
                             tag = "--------------"
-                    print '\t\t{0} {1}'.format(n.strip(), tag)
+                    print('\t\t{0} {1}'.format(n.strip(), tag))
 
 
-print "FILES TO FIX:"
-print len(tofix)
+print("FILES TO FIX:")
+print(len(tofix))
 for t in tofix:
-    print "{0}\t\t\t{1}\t\t\t{2}".format(t[0],t[1],t[2])
+    print("{0}\t\t\t{1}\t\t\t{2}".format(t[0],t[1],t[2]))

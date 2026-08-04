@@ -23,7 +23,7 @@ def safe_select(obj):
 
 def do_import():
     if cmds.objExists(CUBES_GROUP):
-        print "Currently a {0} is in scene.".format(CUBES_GROUP),
+        print("Currently a {0} is in scene.".format(CUBES_GROUP),)
         return
     try:
         # modelpanel4 is the standard persp window that should be available visible or not
@@ -43,4 +43,4 @@ def do_import():
     cmds.setAttr(CUBES_DISPLAY_LAYER+".displayType", 2)
     cmds.setAttr(CUBES_DISPLAY_LAYER + ".color", 3)
     cmds.select(cl=True)
-    print SUCCESS_MESSAGE,
+    print(SUCCESS_MESSAGE,)

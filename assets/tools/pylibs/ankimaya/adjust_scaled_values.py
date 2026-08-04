@@ -13,7 +13,7 @@ def adjust_values(shifted_attrs=DEFAULT_SHIFTED_ATTRS):
     for anim_clip in game_exporter_anims:
         face_keys = anim_clip["face_keyframes"]
         for i in range(len(face_keys)-1,0,-1):
-            print i
+            print(i)
             key = face_keys[i]
             scaled_key = scale_frame(anim_clip["clip_start"])+scale_frame(key)
             key += anim_clip["clip_start"]

@@ -71,7 +71,7 @@ def main():
             mc.setKeyframe(ctr_attr, insert=True, time=frame)
 
     mc.currentTime(current_frame)
-    print "All eye attributes keyed",
+    print("All eye attributes keyed",)
 
 def are_eye_attrs_keyed():
     """

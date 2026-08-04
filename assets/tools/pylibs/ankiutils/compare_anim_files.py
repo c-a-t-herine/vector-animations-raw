@@ -25,7 +25,7 @@ def read_anim_file(anim_file):
     fh = open(anim_file, 'r')
     try:
         contents = json.load(fh)
-    except StandardError, e:
+    except StandardError as e:
         print("Failed to read %s file because: %s" % (anim_file, e))
         raise
     finally:

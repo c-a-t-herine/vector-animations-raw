@@ -21,7 +21,7 @@ global proc coz_x_mirrorEyes() {
     float $r_pupil_tx = 0;
     float $r_pupil_ty = 0;
 
-    print ("mirror pupils");
+    print("mirror pupils");
 
     if (`objExists x:mech_L_pupil_ctrl` && `objExists x:mech_R_pupil_ctrl`)
     {

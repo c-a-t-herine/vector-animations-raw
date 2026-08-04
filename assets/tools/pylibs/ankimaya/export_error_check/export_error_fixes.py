@@ -24,17 +24,17 @@ def run_fixes(selected_choices=None,name2nodes=None):
 def fix_frame_rate():
     try:
         mc.currentUnit(time="ntsc")
-    except StandardError, e:
+    except StandardError as e:
         print("Could not convert to 30 fps because: %s" % e)
     else:
-        print "Frame rate converted to 30 fps",
+        print("Frame rate converted to 30 fps",)
 
 
 def fix_rig_reference():
     try:
         char_name = get_char_name()
     except StandardError:
-        print "Cannot reference file, since character name cannot be found. Please check env file",
+        print("Cannot reference file, since character name cannot be found. Please check env file",)
         return
     mc.file(CHARS[char_name][2], type="mayaAscii", r=True, ignoreVersion=True, gl=True,
             mergeNamespacesOnClash=False, namespace="x", options="v=0;")

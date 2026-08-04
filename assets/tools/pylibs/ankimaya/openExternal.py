@@ -37,7 +37,7 @@ def openDirectory(dirToOpen, reveal=False):
         openDirCmd.append("-R")
     try:
         subprocess.call(openDirCmd)
-    except StandardError, e:
+    except StandardError as e:
         msg = "Unable to open %s folder because: %s" % (dirToOpen, e)
         cmds.warning(msg)
 

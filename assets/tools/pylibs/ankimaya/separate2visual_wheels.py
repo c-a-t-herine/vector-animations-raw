@@ -35,7 +35,7 @@ def get_wheel_values_and_times_sep_wheels(time_start, time_end):
     r_wheel_values = []
 
     if l_wheel_times is None and r_wheel_times is None:
-        print "Wheel ctrs were not keyed and their values will not be copied"
+        print("Wheel ctrs were not keyed and their values will not be copied")
         return [], []
 
     if l_wheel_times:
@@ -65,7 +65,7 @@ def get_wheel_values_and_times_vis_wheels(time_start, time_end):
     l_wheel_values = []
 
     if wheel_times_fr is None:
-        print "Wheel ctr is not keyed. Values will not be copied"
+        print("Wheel ctr is not keyed. Values will not be copied")
         return [], []
 
     if wheel_times_fr!=[]:
@@ -93,7 +93,7 @@ def get_segment_rotations_sw(l_wheel_values, r_wheel_values):
 # def get_segment_rotations_vw(l_wheel_values, ratio_values):
 #     if l_wheel_values != ratio_values:
 #         mc.error("Different amount of wheel values and ratios")
-#         print ("ratios: %s\nvalues: %s") %(ratio_values, l_wheel_values)
+#         print("ratios: %s\nvalues: %s") %(ratio_values, l_wheel_values)
 #     l_segment_rotations = []
 #     segment_ratios = []
 #     for i in range(len(l_wheel_values)-1):
@@ -115,10 +115,10 @@ def get_ratios_from_wheel_values(l_segment_rotations, r_segment_rotations):
 
 def set_vis_wheel_ctr(l_values, ratios, wheel_times):
     if len(wheel_times)!=len(l_values):
-        print "inconsistency between wheel times and values",
+        print("inconsistency between wheel times and values",)
         return []
     if len(ratios)!=len(l_values)-1:
-        print "inconsistency between ratios and wheel values",
+        print("inconsistency between ratios and wheel values",)
         return []
     for i in range(len(wheel_times)):
         mc.currentTime(wheel_times[i])
@@ -129,7 +129,7 @@ def set_vis_wheel_ctr(l_values, ratios, wheel_times):
 
 def set_sep_wheel_ctrs(l_values, ratios, wheel_times):
     if len(wheel_times)!=len(l_values):
-        print "inconsistency between wheel times and values",
+        print("inconsistency between wheel times and values",)
         return []
     prev_r_wheel = 0
     for i in range(len(wheel_times)):
@@ -160,12 +160,12 @@ def clear_separate(time_start, time_end):
 
 def separate2visual(time_start = 0, time_end = 0, overwrite=False):
     if not (mc.objExists(L_WHEEL_CTR) or mc.objExists(R_WHEEL_CTR)):
-        print "You need to use the new version of the rig that has %s and %s" \
-              " for animation transfer to work" %(L_WHEEL_CTR, R_WHEEL_CTR)
+        print("You need to use the new version of the rig that has %s and %s" \
+              " for animation transfer to work" %(L_WHEEL_CTR, R_WHEEL_CTR))
         return []
     if not mc.objExists(WHEELS_CTR):
-        print "You need to use the new version of the rig that has %s" \
-              " for animation transfer to work" %(WHEELS_CTR)
+        print("You need to use the new version of the rig that has %s" \
+              " for animation transfer to work" %(WHEELS_CTR))
         return []
 
     # if no time parameters are given will use the start and end of timeline
@@ -183,12 +183,12 @@ def separate2visual(time_start = 0, time_end = 0, overwrite=False):
 
 def visual2separate(time_start = 0, time_end = 0, overwrite=False):
     if not (mc.objExists(L_WHEEL_CTR) or mc.objExists(R_WHEEL_CTR)):
-        print "You need to use the version of the rig that has %s and %s" \
-              " for animation transfer to work" %(L_WHEEL_CTR, R_WHEEL_CTR)
+        print("You need to use the version of the rig that has %s and %s" \
+              " for animation transfer to work" %(L_WHEEL_CTR, R_WHEEL_CTR))
         return []
     if not mc.objExists(WHEELS_CTR):
-        print "You need to use the version of the rig that has %s" \
-              " for animation transfer to work" %(WHEELS_CTR),
+        print("You need to use the version of the rig that has %s" \
+              " for animation transfer to work" %(WHEELS_CTR),)
         return []
 
     # if no time parameters are given will use the start and end of timeline

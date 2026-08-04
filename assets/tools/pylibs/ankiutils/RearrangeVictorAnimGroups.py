@@ -60,9 +60,9 @@ for f in engine_files:
 features = []
 fmap = {}
 ag_files = os.listdir(VICTOR_AG_DIR)
-print "FEATURES..."
+print("FEATURES...")
 for agf in ag_files:
-    #print agf
+    #print(agf)
     if 'json' in agf:
         base = agf.split('.')[0]
         words = base.split('_')
@@ -71,7 +71,7 @@ for agf in ag_files:
             features.append(feature)
         # now see if this feature can be found in maya_features
         if feature in maya_features:
-            print feature
+            print(feature)
 
 features = sorted(features)
 maya_features = sorted(maya_features)
@@ -94,7 +94,7 @@ print("\n\nFEAUTRES")
 pprint(features)
 
 # for a,b in enumerate( maya_features):
-#    print features[a], '\t',b
+#    print(features[a], '\t',b)
 # to double check
 # pprint(fmap)
 

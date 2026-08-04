@@ -31,9 +31,9 @@ class ClipRenamer:
         # try:
         #     self.directory_path = sys.argv[1]
         # except IndexError:
-        #     print os.path
+        #     print(os.path)
         #     self.directory_path = ""
-        #     print "Need to specify the path where json and tar files live"
+        #     print("Need to specify the path where json and tar files live")
         #
         # self.version_controll = self.find_version_controll(self.directory_path)
 
@@ -56,8 +56,8 @@ class ClipRenamer:
                 return "git"
             if os.path.isdir(new_dir_path + "/.svn"):
                 return "svn"
-                print ("svn")
-        print "This is neither git nor svn repository"
+                print("svn")
+        print("This is neither git nor svn repository")
         return ""
 
     def rename_file(self, version_controll, file_name):
@@ -167,7 +167,7 @@ class ClipRenamer:
         new_data = ""
 
         for line in open(file_path):
-            for rename_from, rename_to in from_to.iteritems():
+            for rename_from, rename_to in from_to.items():
                 if rename_from in line:
                     needs_rewriting = True
                     line = line.replace(rename_from, rename_to)

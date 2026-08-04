@@ -79,7 +79,7 @@ def unpack_tarball(tar_file):
     dest_dir = tempfile.mkdtemp()
     try:
         tar = tarfile.open(tar_file)
-    except tarfile.ReadError, e:
+    except tarfile.ReadError as e:
         raise RuntimeError("%s: %s" % (e, tar_file))
     #print("Unpacking %s in %s..." % (tar_file, dest_dir))
     tar.extractall(dest_dir)
@@ -156,8 +156,8 @@ def check_probabilities_in_tars():
                 problem_jsons.append(anim_file)
                 if tar_file not in problem_tars:
                     problem_tars.append(tar_file)
-    print "problem_jsons = ", problem_jsons
-    print "problem_tars = ", problem_tars
+    print("problem_jsons = ", problem_jsons)
+    print("problem_tars = ", problem_tars)
 
 
 def check_keyframes(lights=True, radius=True):
@@ -361,7 +361,7 @@ def check_for_duplicate_or_missing_assets_in_sg(tar_file_dict):
                       "Was that asset intentionally removed?" % (os.linesep, output_file, asset_name))
             try:
                 check_svn_file_url(output_file_url)
-            except ValueError, e:
+            except ValueError as e:
                 print("%sALERT: Invalid output file URL for '%s' (%s): %s"
                       % (os.linesep, asset_name, asset_type, output_file_url))
             while output_file in tar_file_tracker:

@@ -51,7 +51,7 @@ def get_pid_using_local_port(lsof=LSOF, port=LOCAL_PORT_NUM):
         if stderr:
             print(stderr)
         return None
-    pid = long(stdout[1:])
+    pid = int(stdout[1:])
     return pid
 
 
@@ -111,7 +111,7 @@ def enable_preview_on_robot(mobiledevice=MOBILEDEVICE, local_port=LOCAL_PORT_NUM
     if pid is None:
         cmds.warning(FAILURE_MSG)
     else:
-        print PORT_USED_MSG % (pid, "now"),
+        print(PORT_USED_MSG % (pid, "now"),)
 
 
 def play_anim_on_robot(anim_file, post_cmd="cmd_anim_update", host=HOSTNAME, port=LOCAL_PORT_NUM):
@@ -145,7 +145,7 @@ def update_facial_anims_on_robot(facial_anims, source_dir):
     for facial_anim in facial_anims:
         try:
             png_files = get_facial_png_files(facial_anim, source_dir)
-        except (RuntimeError, ValueError), e:
+        except (RuntimeError, ValueError) as e:
             cmds.warning(str(e))
             continue
         setup_facial_anims_on_device(facial_anim)
@@ -162,7 +162,7 @@ def main(anim_name=None):
                 anim_file = get_json_file_for_anim(anim_name, export_path)
             else:
                 anim_file = get_newest_json_file(export_path)
-        except ValueError, e:
+        except ValueError as e:
             cmds.warning(str(e))
             return None
         if anim_file:
@@ -192,10 +192,10 @@ def main(anim_name=None):
                 else:
                     print(play_output)
                     file_stat_msg = report_file_stats(anim_file)
-                    print file_stat_msg,
+                    print(file_stat_msg,)
             else:
                 file_stat_msg = report_file_stats(anim_file)
-                print file_stat_msg,
+                print(file_stat_msg,)
     else:
         raise ValueError("Please ensure that ANKI_ANIM_EXPORT_PATH is set in the Maya.env file")
 

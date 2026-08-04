@@ -50,7 +50,7 @@ class KeySeq(object):
             from_index = first_key_index - 1
 
         if from_index >= len(self.all_key_values) or from_index < 0:
-            print "Please make sure there is a keyframe to copy from on " + self.anim_curve
+            print("Please make sure there is a keyframe to copy from on " + self.anim_curve)
             return
 
         if from_index != 0.5:
@@ -97,7 +97,7 @@ class KeySeq(object):
             else:
                 result_value = self.all_key_values[from_index]
         except IndexError:
-            print "Please make sure there are keyframes to copy from on " + self.anim_curve
+            print("Please make sure there are keyframes to copy from on " + self.anim_curve)
             return
 
         mc.setKeyframe(self.anim_curve, time=key_times, value=result_value)
@@ -125,7 +125,7 @@ def split_index_list(main_list):
 def copyKeys(mode=NEXT_STR):
     anim_curves = mc.keyframe(q=1, name=1)
     if anim_curves is None:
-        print "Please select keyframes which values to change"
+        print("Please select keyframes which values to change")
         return
 
     key_seqs = []

@@ -64,7 +64,7 @@ def main():
                 continue
             try:
                 lock_git_file(filename)
-            except ValueError, e:
+            except ValueError as e:
                 problems.append(str(e))
             else:
                 changed.append(filename)
@@ -75,7 +75,7 @@ def main():
                 continue
             try:
                 unlock_git_file(filename)
-            except ValueError, e:
+            except ValueError as e:
                 problems.append(str(e))
             else:
                 changed.append(filename)

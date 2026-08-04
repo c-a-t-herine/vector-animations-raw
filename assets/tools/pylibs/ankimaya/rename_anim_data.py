@@ -81,7 +81,7 @@ def rename_in_shotgun(args, sg_proj=DEFAULT_SG_PROJECT):
         sg_proj = [sg_proj]
     try:
         rename_results = rename_entities.main(args, sg_proj)
-    except ValueError, e:
+    except ValueError as e:
         usage_msg = rename_entities.USAGE_MSG
         usage_msg = re.sub(r"\brename_entities.[a-z]+\b", WRAPPER_SCRIPT, usage_msg)
         print(os.linesep + usage_msg + os.linesep)
@@ -136,7 +136,7 @@ def main(args=None):
                 # This is a Maya scene file, so rename the animation clips in there
                 try:
                     rename_maya_clips(rename_mapping, anim_file, files_to_commit)
-                except StandardError, e:
+                except StandardError as e:
                     print("Failed to rename anim clips in %s because: %s" % (anim_file, e))
             elif anim_file.endswith(".json"):
                 # This is an animation group .json file, so rename this file
@@ -148,7 +148,7 @@ def main(args=None):
         print(os.linesep + "Checking animation group file: %s" % anim_group_file)
         try:
             num_clips_renamed = anim_groups.rename_anim_clips(rename_mapping, anim_group_file)
-        except StandardError, e:
+        except StandardError as e:
             print("Failed to rename anim clips in %s because: %s" % (anim_group_file, e))
             num_clips_renamed = 0
         if num_clips_renamed > 0:

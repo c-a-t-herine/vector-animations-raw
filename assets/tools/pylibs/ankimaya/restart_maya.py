@@ -13,7 +13,7 @@ stderr_pipe = subprocess.PIPE
 
 def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shell=False, split=False):  # TODO add cwd
     if DEBUG:
-        print "CMD=", cmd
+        print("CMD=", cmd)
     if split:
         cmd = cmd.split()
     try:
@@ -24,9 +24,9 @@ def run_command_core(cmd, stdout_pipe=stdout_pipe, stderr_pipe=stderr_pipe, shel
     (stdout, stderr) = p.communicate()
     status = p.poll()
     if DEBUG:
-        print "cmd:status: ", status
-        print "cmd:stdout: ", stdout
-        print "cmd:stderr: ", stderr
+        print("cmd:status: ", status)
+        print("cmd:stdout: ", stdout)
+        print("cmd:stderr: ", stderr)
     return (status, stdout, stderr)
 
 
@@ -45,7 +45,7 @@ def SendCommand():
         client.send(MyMessage)
         data = client.recv(1024)
         client.close()
-        print 'The Result is %s' % data
+        print('The Result is %s' % data)
     except:
         pass
 

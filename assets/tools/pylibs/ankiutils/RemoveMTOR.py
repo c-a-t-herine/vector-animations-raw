@@ -25,13 +25,13 @@ cmd = ['grep','-lr','mtor',COZMO_ANIM_DIR]
 st, std, ste = run_command_core(cmd)
 
 tmpfile = os.path.join (os.environ['TMPDIR'],'mtor_temp_file.ma')
-print tmpfile
+print(tmpfile)
 
 
 mtor_files = std.split('\n')
 for m in mtor_files:
     if m.endswith('.ma'):
-        print "doing ",m
+        print("doing ",m)
         fout = open(tmpfile,'w')
         fid = open(m,'r')
         for line in fid:

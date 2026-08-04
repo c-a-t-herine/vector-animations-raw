@@ -107,7 +107,7 @@ def main(args=None):
         print('')
         try:
             rename_maya_events(rename_mapping, maya_file, files_to_commit)
-        except StandardError, e:
+        except StandardError as e:
             print("Failed to rename audio events in %s because: %s" % (maya_file, e))
 
     if files_to_commit:

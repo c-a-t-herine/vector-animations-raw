@@ -85,7 +85,7 @@ def write_checks_to_json(section_name, json_dict, json_file=USER_JSON_FILE):
 
 def optimize_json(json_dict):
     if isinstance(json_dict, dict):
-        for key, value in json_dict.iteritems():
+        for key, value in json_dict.items():
             optimize_json(value)
     elif isinstance(json_dict, list):
         remove_message_repetition(json_dict)
@@ -103,7 +103,7 @@ def get_char_name():
     for char_name in CHARS.keys():
         if char_name in TOOLS_DIR:
             return char_name
-    print "Could not find which project is the enviroment set to",
+    print("Could not find which project is the enviroment set to",)
     return None
 
 def get_anim_curves():

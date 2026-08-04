@@ -82,12 +82,12 @@ if args.volume: DEFAULT_VOLUME = int(args.volume)
 DEFAULT_VOLUME = int(max(min(DEFAULT_VOLUME, 5), 0))
 if args.outputlog: OUTPUTLOG = args.outputlog
 
-print ("ip=         ",IP_ADDRESS)
-print ("start=      ",START_INDEX)
-print ("end=        ",END_INDEX)
-print ("timeout=    ",POLL_TIMEOUT)
-print ("volume=     ",DEFAULT_VOLUME)
-print ("outputlog=  ",OUTPUTLOG)
+print("ip=         ",IP_ADDRESS)
+print("start=      ",START_INDEX)
+print("end=        ",END_INDEX)
+print("timeout=    ",POLL_TIMEOUT)
+print("volume=     ",DEFAULT_VOLUME)
+print("outputlog=  ",OUTPUTLOG)
 
 
 
@@ -211,9 +211,9 @@ def main(ipAddress=IP_ADDRESS, vol=DEFAULT_VOLUME):
     if OUTPUTLOG is not None:
         try:
             FILEID = open(OUTPUTLOG,'w')
-            print "opening outputlog: {0}".format(OUTPUTLOG)
+            print("opening outputlog: {0}".format(OUTPUTLOG))
         except:
-            print "there was a problem opening the log file: {0}".format(OUTPUTLOG)
+            print("there was a problem opening the log file: {0}".format(OUTPUTLOG))
 
     send("Robot IP address = {0}".format(ipAddress))
     send("Start time: {0}".format(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))

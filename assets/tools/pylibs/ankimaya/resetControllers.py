@@ -62,7 +62,7 @@ def resetController(controller, customAttrs=CUSTOM_ATTRS):
                 print("skipping %s" % fqAttr)
             else:
                 print("set %s to %s" % (fqAttr, defaultValue))
-        for fullAttr, value in customAttrs.iteritems():
+        for fullAttr, value in customAttrs.items():
             if attr == fullAttr.split(".")[1]:
                 try:
                     cmds.setAttr(fullAttr, value)

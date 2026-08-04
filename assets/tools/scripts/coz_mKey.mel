@@ -25,5 +25,5 @@ global proc coz_mKey (){
     setKeyframe {"x:moac_ctrl", "x:mech_all_ctrl"};
     select -r "x:mech_all_ctrl";
     keyTangent -ott step "x:moac_ctrl.M_State";
-    print {"// Result: Mkey (xCozmo)"};
+    print({"// Result: Mkey (xCozmo)"});
 };

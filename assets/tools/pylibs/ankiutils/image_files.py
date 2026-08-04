@@ -98,7 +98,7 @@ def change_pixel_density(image_file, density):
 def _get_first_file_in_tarball(tar_file, file_type=DEFAULT_IMAGE_TYPE, dest_dir=None):
     try:
         tar = tarfile.open(tar_file)
-    except tarfile.ReadError, e:
+    except tarfile.ReadError as e:
         raise RuntimeError("%s: %s" % (e, tar_file))
     members = tar.getmembers()
     members = [x.name for x in members]
@@ -126,7 +126,7 @@ def get_image_file_count(tar_file, image_file_type=DEFAULT_IMAGE_TYPE):
         return 1
     try:
         tar = tarfile.open(tar_file)
-    except tarfile.ReadError, e:
+    except tarfile.ReadError as e:
         raise RuntimeError("%s: %s" % (e, tar_file))
     members = tar.getmembers()
     tar.close()

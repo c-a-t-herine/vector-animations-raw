@@ -91,7 +91,7 @@ def move_keyframes_to_int_times(node, mock=True):
             try:
                 num_curves = cmds.keyframe(time=(keyframe,keyframe), absolute=True,
                                            timeChange=fixed_time)
-            except RuntimeError, e:
+            except RuntimeError as e:
                 print("ERROR: Failed to %s because: %s" % (move_error_msg_part, str(e).strip()))
             #else:
             #    print("(number of curves on which keys were modified = %s)" % num_curves)

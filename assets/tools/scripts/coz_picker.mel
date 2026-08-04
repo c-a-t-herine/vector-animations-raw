@@ -192,7 +192,7 @@ global proc selCoz_all(){
         }
         else
         {
-            print "This version of the rig doesn't have wheel controllers";
+            print("This version of the rig doesn't have wheel controllers");
         }
 
         int $mods = `getModifiers`;
@@ -444,7 +444,7 @@ global proc selAllBody (){
         }
         else
         {
-            print "This version of the rig doesn't have wheel controllers";
+            print("This version of the rig doesn't have wheel controllers");
         }
 
         int $mods = `getModifiers`;
@@ -461,7 +461,7 @@ global proc selMech_R_wheel () {
         //check to see which wheel is present 
         if (`objExists x:virtual_wheel_R_ctrl`)
         {
-            print "wheel ctrls in this rig are non-functional";
+            print("wheel ctrls in this rig are non-functional");
             if (($mods/1)%2==1)select -add $xC_selMech_Virtual_R_wheel; else select $xC_selMech_Virtual_R_wheel;
         }
         else 
@@ -478,7 +478,7 @@ global proc selMech_L_wheel () {
         //check to see which wheel is present
         if (`objExists x:virtual_wheel_L_ctrl`)
         {
-            print "wheel ctrls in this rig are non-functional";
+            print("wheel ctrls in this rig are non-functional");
             if (($mods/1)%2==1)select -add $xC_selMech_virtual_L_wheel; else select $xC_selMech_virtual_L_wheel;
         }
         else 
@@ -495,7 +495,7 @@ global proc selMech_wheelsAll () {
     //check to see which wheels are present
     if (`objExists x:virtual_wheel_L_ctrl` && `objExists x:virtual_wheel_R_ctrl`)
     {
-        print "These wheel ctrls in this rig are non-functional";
+        print("These wheel ctrls in this rig are non-functional");
         if (($mods/1)%2==1)select -add $xC_selMech_virtual_wheelsAll; else select $xC_selMech_virtual_wheelsAll; 
     }
     else

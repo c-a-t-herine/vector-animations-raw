@@ -25,9 +25,9 @@ import anim_groups
 
 # For timestamps
 #
-# print "last modified: %s" % time.ctime(os.path.getmtime(
+# print("last modified: %s" % time.ctime(os.path.getmtime())
 # self.anim_clips_path+"/"+tar_file))
-# print "created: %s" % time.ctime(
+# print("created: %s" % time.ctime())
 # os.path.getctime(os.path.getmtime(self.anim_clips_path+"/"+tar_file)))
 
 
@@ -91,14 +91,14 @@ class AnimationFinder:
                     if file_name[-5:] == ".json":
                         self.all_clip_names.append(file_name[:-5])
                         if last_modyfied < self.some_days_ago:
-                            # print ("%s was last modyfied %s, before %s" %(
+                            # print("%s was last modyfied %s, before %s" %(
                             #     file_in_question,last_modyfied, self.some_days_ago))
                             self.old_clips.append(file_name[:-5])
                         else:
                             self.new_clips.append(file_name[:-5])
 
     def find_unused_tars(self):
-        for tar, clip_list in self.tars_clips.iteritems():
+        for tar, clip_list in self.tars_clips.items():
             if self.are_clips_used(clip_list):
                 self.unused_tars.append(tar)
         self.unused_tars.sort()
@@ -145,7 +145,7 @@ class AnimationFinder:
                         for anim_node in data["Animations"]:
                             grouped_clips.append(anim_node["Name"])
                     except ValueError:
-                        print "could not parse: %s" %(dir_path+"/"+anim_group_file)
+                        print("could not parse: %s" %(dir_path+"/"+anim_group_file))
             # If directory, continue recursively
             elif os.path.isdir(dir_path+"/"+anim_group_file):
                 grouped_clips += (self.get_grouped_clips(dir_path+"/"+anim_group_file))
@@ -175,10 +175,10 @@ class AnimationFinder:
     def output_animation_info(self):
 
         # if self.ungrouped_clips is not None:
-        #     print os.linesep + "The following animation clips have not been added to anim groups:" + os.linesep
+        #     print(os.linesep + "The following animation clips have not been added to anim groups:" + os.linesep)
         #     print(os.linesep.join(self.ungrouped_clips))
         # else:
-        #     print "All clips are in anim groups"
+        #     print("All clips are in anim groups")
 
         print(os.linesep + "The following animation clips have not been added to anim groups:")
 
@@ -192,12 +192,12 @@ class AnimationFinder:
         print(os.linesep + os.linesep.join(self.unused_tars))
 
         # if self.no_event_animgroups_clips is not None:
-        #     print os.linesep + "The following animation groups have no corresponding clad events:" + os.linesep
+        #     print(os.linesep + "The following animation groups have no corresponding clad events:" + os.linesep)
         #     for anim_group, clips in self.no_event_animgroups_clips.iteritems():
         #         # in case need to know clips
-        #         # print os.linesep + "Anim Group: %s" %(anim_group)
-        #         # print "Clips:\n\t"+("\n\t".join(self.ungrouped_clips))
-        #         print anim_group
+        #         # print(os.linesep + "Anim Group: %s" %(anim_group))
+        #         # print("Clips:\n\t"+("\n\t".join(self.ungrouped_clips)))
+        #         print(anim_group)
 
         # print(os.linesep + "The following animation groups have no corresponding clad events:" + os.linesep)
         #

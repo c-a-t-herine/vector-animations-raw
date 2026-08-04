@@ -145,12 +145,12 @@ def lockSceneFile():
 def openSceneFile(disableFileLockPromptEnvVar=DISABLE_FILE_LOCK_PROMPT_ENV_VAR):
     try:
         checkFileStatus()
-    except BaseException, e:
+    except BaseException as e:
         cmds.warning(str(e).strip())
     if os.getenv(disableFileLockPromptEnvVar) in [None, 0, "0"]:
         try:
             lockSceneFile()
-        except BaseException, e:
+        except BaseException as e:
             cmds.warning(str(e).strip())
 
 

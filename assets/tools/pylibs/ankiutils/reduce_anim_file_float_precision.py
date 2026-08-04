@@ -25,12 +25,12 @@ d = json.load(fid)
 fid.close()
 ar = d['anim_onboarding_wakeup_01']
 for a in ar:
-    #print a
+    #print(a)
     for k in a.keys():
         if type(a[k]) ==type(0.33):
 
             n = float(FORMAT.format(a[k]))
-            #print type(a[k]), a[k], n
+            #print(type(a[k]), a[k], n)
             a[k] = n
         # all lists are lists of floats
         if type(a[k]) == type([0,1]):
@@ -39,7 +39,7 @@ for a in ar:
                 for i,val in enumerate(a[k],0):
                     n = float(FORMAT.format(val))
                     a[k][int(i)] = n
-                    #print n
+                    #print(n)
 
 with open(o, 'w') as outfile:
     json.dump(d, outfile)

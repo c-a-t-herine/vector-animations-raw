@@ -114,7 +114,7 @@ def run_pre_export_checks():
     pre_export_dict = dict()
     char_name = utils.get_char_name()
 
-    for type, checks in PRE_EXPORT_TYPE2CHECK.iteritems():
+    for type, checks in PRE_EXPORT_TYPE2CHECK.items():
         pre_export_dict[type] = []
         for check in checks:
             if "%s" in check:
@@ -133,7 +133,7 @@ def run_post_export_checks(anim_jsons):
     post_export_dict = dict()
     char_name = utils.get_char_name()
 
-    for type, checks in POST_EXPORT_TYPE2CHECK.iteritems():
+    for type, checks in POST_EXPORT_TYPE2CHECK.items():
         post_export_dict[type] = []
         for check in checks:
             if "%s,%s" in check:
@@ -231,7 +231,7 @@ def check_rig_reference(char_name):
     else:
         try:
             rig_path = mc.referenceQuery(utils.CHARS[char_name][3], filename=True)
-        except StandardError, e:
+        except StandardError as e:
             json_dict[MESSAGE_STR] = "Cannot find reference.\n%s" % (e)
             json_dict[STATUS_STR] = ERROR_STR
             add_rig_fix(json_dict, char_name)
@@ -266,7 +266,7 @@ def check_frame_rate():
     json_dict = copy.deepcopy(FRAME_RATE_DICT)
     try:
         frame_rate_type = mc.currentUnit(query=True, time=True)
-    except StandardError, e:
+    except StandardError as e:
         json_dict[MESSAGE_STR] = "Cannot get frame rate.\n%s" % (e)
         json_dict[STATUS_STR] = ERROR_STR
         return json_dict
@@ -406,7 +406,7 @@ def check_exporter_version():
     json_dict = copy.deepcopy(EXPORTER_VERSION_DICT)
     try:
         exporter_version = getExporterVersion()
-    except StandardError, e:
+    except StandardError as e:
         json_dict[MESSAGE_STR] = "Cannot find exporter version.\n%s" % e
         json_dict[STATUS_STR] = ERROR_STR
         return json_dict
@@ -434,7 +434,7 @@ def check_same_trigger_time(anim_jsons):
             # create list of [[name,trigger_time]] of each node to then check for repetition
             with open(anim_json, "r+") as data_file:
                 data = json.load(data_file)
-                for node in data.values()[0]:
+                for node in list(data.values())[0]:
                     name_trigger_times.append([node["Name"], node["triggerTime_ms"]])
 
             for sub_name_trigger_time in name_trigger_times:
@@ -461,7 +461,7 @@ def check_vector_backpack(anim_jsons, char_name):
             # filnd if there is a node with a name backpack
             with open(anim_json, "r+") as data_file:
                 data = json.load(data_file)
-                for node in data.values()[0]:
+                for node in list(data.values())[0]:
                     if node["Name"] == BACKPACK_KEYFRAME_NAME:
                         json_dict[MESSAGE_STR] = "Vector is not using backpack lights, and those" \
                                                  " keyframes will not be read by the robot"

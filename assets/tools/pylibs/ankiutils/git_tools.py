@@ -148,13 +148,13 @@ def is_up(url_string=GITHUB_URL):
     try:
         urllib2.urlopen(url_string)
         return True
-    except urllib2.HTTPError, e:
+    except urllib2.HTTPError as e:
         if e.code == 401:
             # Authentication error site is up and requires login.
             return True
         #print("is_up error: %s" % e.code)
         return False
-    except urllib2.URLError, e:
+    except urllib2.URLError as e:
         return False
 
 
@@ -1169,7 +1169,7 @@ def git_pull(remote=DEFAULT_REMOTE, branch=DEFAULT_BRANCH, git_repo_path=None):
     cmd += GIT_PULL_CMD % (remote, branch)
     try:
         stdout = _run_command_wrapper(cmd)
-    except ValueError, e:
+    except ValueError as e:
         msg = "Failed to pull from GitHub because: %s" % e
         raise ValueError(msg)
     else:
@@ -1191,7 +1191,7 @@ def git_push(remote=DEFAULT_REMOTE, branch=DEFAULT_BRANCH, git_repo_path=None):
     cmd += GIT_PUSH_CMD % (remote, branch)
     try:
         stdout = _run_command_wrapper(cmd)
-    except ValueError, e:
+    except ValueError as e:
         msg = "Failed to push to GitHub because: %s" % e
         raise ValueError(msg)
     else:

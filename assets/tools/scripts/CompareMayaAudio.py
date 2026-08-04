@@ -11,7 +11,7 @@ ma_path = "/Users/mollyjameson/dev/maya anims/trunk/scenes/anim/"
 #Master from git
 json_path = "/Users/mollyjameson/dev/test/products-cozmo-assets/animations/"
 
-print "Runninig Diff of anki anims and sounds"
+print("Runninig Diff of anki anims and sounds")
 
 #Read in a maya files
 #If a json files exists of the same name
@@ -34,10 +34,10 @@ for i in os.listdir(ma_path):
           maya_str = data_file.read()
           num_wava_maya = maya_str.count(".wav")
         if( num_wava_maya != num_wavs_json ):
-          print filename + " has " + str(num_wavs_json) + " sounds in json but maya thinks " + str(num_wava_maya)
-          #print "ERROR MISMATCH with " + filename
+          print(filename + " has " + str(num_wavs_json) + " sounds in json but maya thinks " + str(num_wava_maya))
+          #print("ERROR MISMATCH with " + filename)
       else:
-        print "no file for " + str(i)
+        print("no file for " + str(i))
 
-print "Done Running Script"
+print("Done Running Script")
 

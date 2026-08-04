@@ -42,7 +42,7 @@ class FramesOffset(object):
         """
         self.anim_curves = mc.keyframe(q=True, name=True)
         if self.anim_curves is None:
-            print "Please select keyframes which should be taken into account for update",
+            print("Please select keyframes which should be taken into account for update",)
             return
         self.populate_anim_curves_start_info()
 
@@ -59,8 +59,8 @@ class FramesOffset(object):
 
             if selected_key_indexes:
                 if len(selected_key_indexes) > 1:
-                    print "Only supports single frame per anim curve, the first of the selected keys"\
-                          " on %s will be used" % anim_curve,
+                    print("Only supports single frame per anim curve, the first of the selected keys"\
+                          " on %s will be used" % anim_curve,)
             else:
                 continue
 
@@ -98,7 +98,7 @@ class FramesOffset(object):
         It modifies the keys after the selected ones per each of the anim curves
         """
         self.populate_anim_curves_end_info()
-        for anim_curve, anim_curve_info in self.keys_info.iteritems():
+        for anim_curve, anim_curve_info in self.keys_info.items():
             after_keys_times = anim_curve_info[ALL_TIMES][anim_curve_info[CURRENT_IDX]:]
             after_keys_values = anim_curve_info[ALL_VALUES][anim_curve_info[CURRENT_IDX]:]
             value_delta = anim_curve_info[END_VALUE] - anim_curve_info[START_VALUE]
