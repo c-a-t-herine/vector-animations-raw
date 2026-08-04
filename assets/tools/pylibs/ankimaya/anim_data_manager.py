@@ -109,7 +109,10 @@ class AnimDataManager(object):
         """
         for attr in self.data_attributes:
             fq_attr = self.data_node + "." + attr
-            driver = mc.setDrivenKeyframe(fq_attr, driver=True, q=True)[0]
+            driver = mc.setDrivenKeyframe(fq_attr, driver=True, query=True)
+            if driver is None:
+                continue
+            driver = driver[0]
             if attr in ADDITIONAL_ATTRS_CTRS.keys():
                 self.data_attrs_ctrs[attr] = ADDITIONAL_ATTRS_CTRS[attr]
             elif NO_DRIVERS_MSG in driver:
@@ -181,7 +184,7 @@ class AnimDataManager(object):
         anim_data = {}
         if data_dict is None:
             data_dict = copy.deepcopy(self.data_attrs_ctrs)
-        for attr, ctrl_attr in data_dict.iteritems():
+        for attr, ctrl_attr in data_dict.items():
             if face_only and not robot_data.is_procedural_face_attr(attr):
                 print("Skipping '%s' attribute in get_anim_data()" % attr)
                 continue
