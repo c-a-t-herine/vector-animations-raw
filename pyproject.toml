@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "vector-animations-raw"
+version = "0.1.0"
+description = ""
+authors = ["catherine"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+chardet = "5.2.0"
+httplib2 = "0.22.0"
+idna = "^3.13"
+python-ldap = "^3.4.5"
+oauth2 = "^1.9.0.post1"
+pillow = "10.4.0"
+pyserial = "^3.5"
+requests = "2.31.0"
+sortedcontainers = "^2.4.0"
+tlslite = "^0.4.9"
+nose = "^1.3.7"
+urllib3 = "2.6.3"
+tornado = "^6.5.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
