@@ -9,8 +9,8 @@ from maya import mel
 from ankimaya import ctrs_manager
 from ankimaya import audio_core
 from ankimaya import game_exporter
-from game_exporter import GAME_EXPORTER_PRESET
-from anim_clip_utils import is_there_intersecting_clip, get_anim_clips, find_clip_num_from_name
+from ankimaya.game_exporter import GAME_EXPORTER_PRESET
+from ankimaya.anim_clip_utils import is_there_intersecting_clip, get_anim_clips, find_clip_num_from_name
 
 DEFAULT_NAME_SUFFIX = "_copy"
 CLIP_NAME_KEY = "clip_name"
@@ -154,7 +154,7 @@ class ClipDuplicator(object):
             # Main functionality
             original_clip_idx = find_clip_num_from_name(original_clip_name)
             if not isinstance(original_clip_idx, int):
-                print "Unable to find original clip",
+                print("Unable to find original clip")
                 return
             clip_start_frame, clip_end_frame, clip_duration = self.get_clip_values(original_clip_idx)
             self.custom_copy(clip_start_frame,clip_end_frame)
@@ -230,7 +230,7 @@ class ClipDuplicator(object):
                 all_values += values[2]
         key_offset=min(all_values)
 
-        for anim_curve, values_times in self.ctr_keys_info.iteritems():
+        for anim_curve, values_times in self.ctr_keys_info.items():
             ctr = values_times[0]
             key_values = values_times[1]
             key_times = values_times[2]

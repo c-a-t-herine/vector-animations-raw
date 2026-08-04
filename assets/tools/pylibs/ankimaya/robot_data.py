@@ -120,7 +120,7 @@ PROC_FACE_ATTRS = PROC_FACE_DATA.keys()
 
 import copy
 import maya.cmds as cmds
-from interpolation_manager import find_value_for_frame
+from ankimaya.interpolation_manager import find_value_for_frame
 
 _node_children_cache = {}
 
@@ -186,7 +186,7 @@ def add_procedural_face_keyframe(curr_attr, trigger_time_ms, duration_time_ms, v
         if fill_new_frame_with_interpolated_values:
             # Add the interpolated values for what maya thinks it is at,
             # that way not every attribute needs to be keyed in maya.
-            for key, val in PROC_FACE_DATA.iteritems():
+            for key, val in PROC_FACE_DATA.items():
                 if key == curr_attr:
                     # this attribute will be updated below
                     continue

@@ -1,6 +1,6 @@
 import maya.cmds as mc
 import copy
-import json_exporter as je
+import ankimaya.json_exporter as je
 import os
 
 # from sprite_box_material import create_sprite_box_material # This will be used for visualization
@@ -72,17 +72,17 @@ def create_sprite_box_polygon(srite_box_holder=SPRITE_BOX_HOLDER, layer_num=DEFA
     """
 
     if verbose:
-        print "Creating sprite box plane, with the following parameters:"
-        print "srite_box_holder ", srite_box_holder
-        print "layer_num ", layer_num
-        print "pos_x ", pos_x
-        print "pos_y ", pos_y
-        print "width ", width
-        print "height ", height
-        print "render_method ", render_method
-        print "loop_config ", loop_config
-        print "asset_name ", asset_name,
-        print "alpha_value ", alpha_value
+        print("Creating sprite box plane, with the following parameters:")
+        print("srite_box_holder ", srite_box_holder)
+        print("layer_num ", layer_num)
+        print("pos_x ", pos_x)
+        print("pos_y ", pos_y)
+        print("width ", width)
+        print("height ", height)
+        print("render_method ", render_method)
+        print("loop_config ", loop_config)
+        print("asset_name ", asset_name,)
+        print("alpha_value ", alpha_value)
 
     # Translate values to maya's attributes units
     if str_2_float(JSON_KEYFRAME["width"]) and str_2_float(JSON_KEYFRAME["height"]):
@@ -122,7 +122,7 @@ def create_sprite_box_polygon(srite_box_holder=SPRITE_BOX_HOLDER, layer_num=DEFA
     mc.setAttr(sprite_box + ".visibility", keyable=False)
 
     # Add enum attributes to sprite box
-    for attr, enum_list in enums_dict.iteritems():
+    for attr, enum_list in enums_dict.items():
         add_enum_attr(sprite_box, attr, enum_list)
     mc.addAttr(sprite_box, longName=TRANSPARENCY_ATTR, attributeType='float',
                minValue=0, maxValue=1, defaultValue=0, keyable=True)
@@ -150,15 +150,15 @@ def set_sprite_box_keyframe(sprite_box=None, render_method="RGBA", loop_config="
         return
 
     if verbose:
-        print "Setting keyframe on %s with the following parameters" % (sprite_box)
-        print "pos_x ", pos_x
-        print "pos_y ", pos_y
-        print "width ", width
-        print "height ", height
-        print "render_method ", render_method
-        print "loop_config ", loop_config
-        print "asset_name ", asset_name,
-        print "alpha_value ", alpha_value
+        print("Setting keyframe on %s with the following parameters" % (sprite_box))
+        print("pos_x ", pos_x)
+        print("pos_y ", pos_y)
+        print("width ", width)
+        print("height ", height)
+        print("render_method ", render_method)
+        print("loop_config ", loop_config)
+        print("asset_name ", asset_name,)
+        print("alpha_value ", alpha_value)
 
     scale_x = float(width) / float(JSON_KEYFRAME["width"])
     scale_y = float(height) / float(JSON_KEYFRAME["height"])
@@ -281,7 +281,7 @@ def str_2_float(input_str):
     try:
         float(input_str)
     except Exception:
-        print "Can't convert %s to float" % (input_str)
+        print("Can't convert %s to float" % (input_str))
     else:
         return float(input_str)
 
@@ -314,13 +314,13 @@ def get_json_keyframe(sprite_box, frame_num):
     json_keyframe = copy.deepcopy(JSON_KEYFRAME)
 
     # Enum attrs
-    for attr, json_attr in ENUM_2_JSON_NAME.iteritems():
+    for attr, json_attr in ENUM_2_JSON_NAME.items():
         if mc.objExists(sprite_box + "." + attr):
             attr_value = mc.getAttr(sprite_box + "." + attr, asString=True, time=frame_num)
             json_keyframe[json_attr] = attr_value.replace(" ", "")
 
     # Translation attrs
-    for attr, json_attr in TRANSLATION_ATTR_2_JSON_NAME.iteritems():
+    for attr, json_attr in TRANSLATION_ATTR_2_JSON_NAME.items():
         if mc.objExists(sprite_box + "." + attr):
             attr_value = mc.getAttr(sprite_box + "." + attr, time=frame_num)
             px_value = int(cm_2_px(attr_value))
@@ -329,7 +329,7 @@ def get_json_keyframe(sprite_box, frame_num):
         json_keyframe[json_attr] = px_value
 
     # Scale attrs
-    for attr, json_attr in SCALE_ATTR_2_JSON_NAME.iteritems():
+    for attr, json_attr in SCALE_ATTR_2_JSON_NAME.items():
         if mc.objExists(sprite_box + "." + attr):
             attr_value = mc.getAttr(sprite_box + "." + attr, time=frame_num)
             largest_value = JSON_KEYFRAME[json_attr]  # The value when scale is 1
